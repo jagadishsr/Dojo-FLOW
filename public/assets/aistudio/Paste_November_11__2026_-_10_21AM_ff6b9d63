@@ -1,0 +1,1631 @@
+# DOJOFLOW – WORLD-CLASS MARTIAL ARTS ACADEMY MANAGEMENT PLATFORM
+## Complete Application Upgrade, UI/UX Transformation, Firebase Architecture & Production Implementation
+
+You are now acting as a principal software architect, senior Flutter/web application engineer, Firebase specialist, product designer and QA engineer.
+
+Your assignment is to transform the existing DojoFLOW application into a polished, scalable, production-ready Martial Arts Academy Management Platform.
+
+This is NOT a request to create a prototype, static UI, mockup or fresh demonstration application.
+
+You are working on an EXISTING APPLICATION with an existing Firebase project, Google Authentication, organisation setup, dojo management, students, attendance, fees, schedules, tournaments and belt progression functionality.
+
+Your first responsibility is to inspect the existing codebase and understand its current architecture.
+
+Then systematically improve it.
+
+# THE PRODUCT VISION
+
+DojoFLOW is a comprehensive management platform for martial arts academies, karate federations and multi-location training organisations.
+
+It should work for:
+- An individual Sensei operating one small dojo.
+- A Shihan managing multiple branches.
+- A Top Sensei administering a national federation.
+- An international martial arts organisation operating across countries.
+- Future parents monitoring their children's martial arts journey.
+
+Our philosophy:
+
+"Manage your Dojo. Develop your Students. Build your Legacy."
+
+The application must be intuitive enough for a Sensei with limited technical knowledge and powerful enough for a large martial arts federation.
+
+Prioritise mobile usability, simple workflows, regional language readiness and reliable data management.
+
+---
+
+# PHASE 0 – INSPECT BEFORE MODIFYING
+
+Before making any changes:
+
+1. Inspect the complete existing source code.
+2. Identify the current application framework, architecture and routing.
+3. Inspect the existing Firebase project configuration.
+4. Inspect Firebase Authentication implementation.
+5. Inspect Firestore collections and document structures.
+6. Inspect existing Firestore Security Rules.
+7. Identify existing organisation and dojo relationships.
+8. Inspect student registration and editing workflows.
+9. Inspect attendance and fee management.
+10. Inspect schedules, announcements, tournaments and belt progression.
+11. Identify existing working components that must be retained.
+12. Identify incomplete, duplicated or broken functionality.
+
+Pay special attention to the onboarding bug described in Phase 1.
+
+Do not assume the existing architecture is correct.
+
+Do not blindly replace existing collections or documents.
+
+Do not create a new Firebase project.
+
+Do not delete existing user accounts or student records.
+
+Do not replace working functionality with dummy data.
+
+Produce an internal implementation plan and proceed with the actual implementation. Do not stop after presenting an analysis.
+
+If a database migration is necessary, implement a backward-compatible migration strategy with appropriate validation and recovery.
+
+---
+
+# PHASE 1 – FIX AUTHENTICATION AND ONBOARDING
+
+## 1.1 Google Authentication
+
+Retain the existing Google Sign-in functionality.
+
+The application must support:
+- New organisation owners.
+- Existing organisation owners.
+- Invited Shihan administrators.
+- Invited Sensei instructors.
+- Future Parent / Guardian accounts.
+
+After authentication, the application must retrieve the user's profile, organisation memberships, roles and onboarding status.
+
+Do not display onboarding while this information is loading.
+
+## 1.2 Critical onboarding flash bug
+
+There is a current bug:
+
+The initial academy/dojo registration form briefly appears every time an existing user logs in, before the main dashboard opens.
+
+This must be completely fixed.
+
+The expected application flow:
+
+1. User opens DojoFLOW.
+2. Firebase checks the authentication session.
+3. User authenticates if required.
+4. Application retrieves the user profile and membership information.
+5. Application retrieves the onboarding status.
+6. Application routes the user to the correct destination.
+
+Routing rules:
+
+- New organisation owner without completed setup → Onboarding.
+- Existing organisation owner → Dashboard.
+- Invited Shihan → Assigned dojo workspace.
+- Invited Sensei → Assigned instructor workspace.
+- Future parent account → Parent portal.
+
+Use a dedicated application loading state while authentication and profile retrieval are in progress.
+
+Never temporarily display the onboarding form as a default route.
+
+Persist onboarding status in Firestore.
+
+Suggested states:
+- not_started
+- in_progress
+- completed
+
+An existing user logging in on a new device must not repeat onboarding.
+
+An invited instructor must not be asked to create an organisation or dojo.
+
+If the organisation is already configured, do not create duplicate records.
+
+## 1.3 Magical onboarding wizard
+
+For new organisation owners, create a beautiful, immersive, one-question-at-a-time onboarding experience.
+
+This must feel like a premium product introduction.
+
+Do not use a conventional long registration form.
+
+Use:
+- Full-screen question layouts.
+- Smooth transitions.
+- Subtle martial arts-inspired graphics.
+- Animated progress indicator.
+- Clean input fields.
+- Clear Continue and Back controls.
+- Automatic draft persistence.
+- Proper validation.
+
+### Question 1 – Academy name
+
+"Welcome to DojoFLOW!"
+
+"Every great journey begins with a Dojo. Let's set up your academy."
+
+Question:
+
+"What is the name of your Martial Arts Academy?"
+
+Input: Full organisation name.
+
+### Question 2 – Head Instructor
+
+"Who is the Head Instructor (Sensei)?"
+
+Input: Full name.
+
+Suggest the authenticated Google profile name when available, but allow editing.
+
+### Question 3 – First Dojo
+
+"Let's establish your first Dojo."
+
+Input: Dojo name.
+
+### Question 4 – Location
+
+"Where is your Dojo located?"
+
+Inputs:
+- Address.
+- Locality.
+- City.
+- State / Province.
+- Country.
+- Postal code.
+
+Default country: India.
+
+Country selection must support international locations.
+
+City and State inputs should adapt to the selected country.
+
+Allow manual entry.
+
+### Question 5 – Additional Dojos
+
+"Would you like to add another Dojo?"
+
+Options:
+- YES – Add Another Dojo.
+- NO – Continue to Dashboard.
+
+If YES, repeat the Dojo Name and Location steps.
+
+Continue until the user selects NO.
+
+### Completion screen
+
+Show a beautiful confirmation:
+
+"Your Dojo is ready!"
+
+Display:
+- Academy name.
+- Head Instructor.
+- Number of registered dojos.
+- Dojo names.
+
+Button: ENTER MY DASHBOARD.
+
+Only enter the dashboard after all required organisation and initial dojo records have been successfully persisted.
+
+---
+
+# PHASE 2 – ORGANISATION, DOJO AND USER ARCHITECTURE
+
+## 2.1 Organisation structure
+
+An organisation contains multiple dojos.
+
+Each organisation should have:
+
+- Organisation ID.
+- Full name.
+- Short code / abbreviation.
+- Organisation logo.
+- Head Instructor.
+- Martial arts style.
+- Country.
+- Address.
+- Contact information.
+- Affiliation details.
+- Organisation settings.
+- Active status.
+
+Example:
+
+Full Name:
+Japan Funakoshi Shotokan Karate India Federation.
+
+Short Code:
+JFSKIF.
+
+Style:
+Shotokan Karate.
+
+Affiliation:
+World JKA Karate Association (WJKA).
+
+Affiliation information must be editable in Organisation Settings.
+
+## 2.2 Dojo management
+
+Every dojo must have:
+
+- Unique dojoId.
+- Organisation ID.
+- Full dojo name.
+- Address.
+- Locality.
+- City.
+- State.
+- Country.
+- Postal code.
+- Assigned Shihan.
+- Assigned Sensei instructors.
+- Status.
+- Creation date.
+
+The organisation administrator must be able to:
+- Create a dojo.
+- Edit dojo details.
+- Assign instructors.
+- Deactivate a dojo.
+- Reactivate a dojo.
+
+Do not permanently delete a dojo containing historical student, attendance or financial records without a carefully controlled archival process.
+
+## 2.3 Dojo navigation – mandatory UI rule
+
+REMOVE THE "ALL DOJOS" BUTTON COMPLETELY.
+
+The dojo selector must behave as follows:
+
+If the organisation has ONE dojo:
+- Display only the dojo name.
+- Do not display unnecessary tabs.
+- Do not show All Dojos.
+
+If the organisation has MULTIPLE dojos:
+- Display horizontally scrollable dojo tabs.
+- Display actual dojo names.
+- Allow selecting an individual dojo.
+- Clearly highlight the selected dojo.
+
+The Top Sensei Admin must not be given an unnecessary aggregate All Dojos navigation tab.
+
+Shihan must only see assigned dojos.
+
+Sensei must only see authorised dojo/class assignments.
+
+Changing a dojo must update the relevant dashboard, student directory, schedules, attendance, events and statistics.
+
+The selected dojo must remain consistent while navigating between modules.
+
+---
+
+# PHASE 3 – USER ROLES AND PERMISSIONS
+
+Implement proper role-based access control.
+
+Do not rely solely on hiding interface elements.
+
+Firebase Security Rules and backend validation must enforce access.
+
+## LEVEL 1 – TOP SENSEI ADMIN
+
+Organisation Head / Founder.
+
+Full organisation-wide administrative permissions.
+
+Can:
+- View and manage all organisation dojos.
+- Create, edit and deactivate dojos.
+- Create Shihan and Sensei accounts.
+- Assign users to dojos.
+- Manage organisation profile and settings.
+- Manage all students.
+- View and manage financial records.
+- Configure fee structures.
+- View attendance reports.
+- Manage belt examinations.
+- Manage tournaments.
+- Manage schedules and announcements.
+- Export reports.
+- View organisation-wide statistics.
+
+## LEVEL 2 – SHIHAN
+
+Second-level instructor and assigned dojo administrator.
+
+Can:
+- Access assigned dojos only.
+- Manage students in assigned dojos.
+- Add and edit student records.
+- Archive inactive students.
+- Create class schedules.
+- Manage class announcements.
+- Mark and manage attendance.
+- Manage dojo-level fees and permitted financial functions.
+- Manage grading candidates.
+- Record belt promotions.
+- Publish dojo events.
+- View relevant reports.
+- Supervise assigned Sensei instructors.
+
+Cannot access unrelated dojos or organisation-wide administration unless explicitly authorised.
+
+## LEVEL 3 – SENSEI
+
+Regular instructor.
+
+Permissions must be restricted to:
+
+- View assigned class schedules.
+- View students eligible for assigned classes.
+- Open assigned class sessions.
+- Mark Present / Absent.
+- Enter optional absence reasons.
+- View attendance history for authorised classes.
+- Manage permitted class-related announcements.
+
+A regular Sensei must NOT be able to:
+- Create or delete students.
+- Manage fees.
+- Access financial reports.
+- Create or delete dojos.
+- Manage organisation settings.
+- Manage other instructors.
+- Access unrelated student records.
+- Perform organisation administration.
+
+## LEVEL 4 – PARENT / GUARDIAN
+
+FUTURE RELEASE.
+
+Prepare the data architecture now, but DO NOT build the parent login or parent-facing portal in this release.
+
+Prepare relationships for:
+- One parent linked to multiple children.
+- A child linked to multiple authorised guardians.
+- Child attendance history.
+- Class schedules.
+- Belt progression.
+- Tournament participation.
+- Fee status and receipts.
+
+Parents must only access information belonging to their linked children.
+
+## STUDENT LOGIN
+
+Do not implement separate student login accounts in this release.
+
+Parent / Guardian access will be sufficient for the planned family portal.
+
+## 3.1 Instructor invitations
+
+Top Sensei Admin should have an Instructor Management area.
+
+Provide:
+- Add Instructor.
+- Full Name.
+- Email.
+- Phone.
+- Role selection.
+- Dojo assignment.
+- Account status.
+- Invitation status.
+
+Use secure Firebase Authentication account invitation and activation.
+
+Email invitations should be supported first.
+
+SMS invitations can be introduced through a verified SMS provider in a later integration.
+
+Never generate or email plain-text passwords.
+
+Provide a secure account activation and password setup flow.
+
+Support:
+- Pending invitation.
+- Active.
+- Suspended.
+- Deactivated.
+
+Allow Top Sensei to reassign an instructor to different dojos.
+
+---
+
+# PHASE 4 – COMPLETE UI/UX TRANSFORMATION
+
+This is one of the most important priorities.
+
+The current application is functional but needs a significant visual refinement.
+
+Use the previous Flutter application screenshots as visual inspiration.
+
+Do not copy their old inconsistencies. Create a modern, premium, polished version.
+
+The design language must be consistent throughout the application.
+
+## 4.1 Header – full-width red gradient
+
+Use a full-width red gradient header.
+
+The header should include:
+
+Left:
+- Organisation logo.
+
+Centre:
+- Organisation name in uppercase.
+- Small, bold typography.
+- "Powered by DojoFLOW" underneath in smaller text.
+
+Right:
+- Profile icon.
+- Settings icon.
+
+The organisation name should remain readable.
+
+For long names, intelligently wrap into two compact lines rather than awkwardly clipping the text.
+
+Use appropriate contrast and responsive sizing.
+
+The header should feel premium, not oversized.
+
+## 4.2 Personal welcome
+
+The dashboard must begin with:
+
+"Welcome back, Sensei [User Name]!"
+
+Below it:
+- Current dojo name.
+- Date.
+- Optional weekly attendance goal.
+
+Do not display a large, unnecessary Command Centre banner.
+
+## 4.3 Dashboard – four compact metric cards
+
+Use a clean two-column card layout on mobile.
+
+Four cards:
+
+1. KARATEKAS
+2. CLASS SCHEDULE
+3. FEE COLLECTION
+4. GRADING CANDIDATES
+
+Each card must have:
+- Medium-sized icon above the text.
+- Clear title.
+- Prominent numerical value.
+- Small supporting description.
+
+Keep the cards compact and equally aligned.
+
+Use actual Firestore data.
+
+Do not use hardcoded sample numbers.
+
+The metrics must reflect the selected dojo and the logged-in user's permissions.
+
+## 4.4 Dashboard content
+
+After the four cards, display:
+
+1. Upcoming Tournaments.
+2. Today's / Upcoming Classes.
+3. Recent Activities.
+4. Pending Actions.
+
+Each section should have:
+- Compact heading.
+- View All action.
+- Appropriate expandable cards.
+
+Show useful summaries without overcrowding the screen.
+
+## 4.5 Bottom navigation – fixed five-item layout
+
+This design is mandatory.
+
+The bottom navigation must have FIVE destinations in this exact order:
+
+1. STUDENTS
+2. SCHEDULE
+3. HOME
+4. EVENTS
+5. STATS
+
+HOME MUST BE POSITIONED IN THE CENTRE.
+
+The Home button must be:
+- Circular.
+- Raised slightly above the navigation bar.
+- Approximately 60–64 px.
+- Red, with a white custom karate punching emblem.
+
+Use a custom vector/SVG illustration of a karate fighter executing a punch or a suitable martial arts punching emblem.
+
+Do not use a generic grid icon, hand icon or ordinary home icon.
+
+Other navigation icons:
+- Approximately 23–25 px.
+- Labels approximately 11–12 px.
+- Even spacing.
+- Consistent alignment.
+- Active destination highlighted.
+
+Ensure all labels fit on one line wherever possible.
+
+Do not allow:
+- Students to wrap into two lines.
+- Schedule to wrap.
+- Events to wrap.
+- Stats to wrap.
+
+Provide safe-area spacing for Android navigation and iOS devices.
+
+### Tab functions
+
+STUDENTS:
+Student directory, registration, profiles, belt history.
+
+SCHEDULE:
+Monthly calendar, class sessions, attendance and announcements.
+
+HOME:
+Dashboard.
+
+EVENTS:
+Tournaments, seminars, belt examinations and announcements.
+
+STATS:
+Fee management, financial ledger, receipts, attendance analytics and reports.
+
+Profile and Settings must remain in the header.
+
+Do not introduce another separate bottom navigation item.
+
+## 4.6 Typography and visual quality
+
+Use a modern sans-serif font family.
+
+Prioritise:
+- Crisp typography.
+- Appropriate font sizes.
+- Medium and semibold weights.
+- Proper line heights.
+- Consistent margins.
+- Consistent iconography.
+- Clean alignment.
+- Subtle borders.
+- Controlled shadows.
+- Carefully selected colour accents.
+
+Avoid:
+- Awkward word wrapping.
+- Clipped text.
+- Unnecessary letter spacing.
+- Excessively large cards.
+- Oversized headings.
+- Random icon sizes.
+- Inconsistent card padding.
+- Horizontal overflow.
+- Inconsistent colours between screens.
+
+Never force nowrap in a way that causes content to overflow. Use responsive sizing, wrapping where appropriate and ellipsis for suitable single-line labels.
+
+---
+
+# PHASE 5 – STUDENT MANAGEMENT
+
+Create a comprehensive Student Directory.
+
+## 5.1 Student registration
+
+Student fields:
+
+- Student full name.
+- Gender.
+- Date of birth.
+- Automatically calculated age.
+- Admission date.
+- Father's name.
+- Mother's name.
+- Guardian phone.
+- Guardian email.
+- Address.
+- Locality.
+- City.
+- State.
+- Country.
+- Student photograph.
+- Current belt.
+- Martial arts title.
+- Training arrangement.
+- Managing dojo.
+- Emergency contact.
+- Medical / safety notes where necessary and access-controlled.
+
+Gender options:
+- Male.
+- Female.
+- Other / Prefer not to say, where appropriate.
+
+## 5.2 Training arrangements
+
+Every student must have a mandatory organisation and managing dojo association.
+
+Training arrangement is a separate field.
+
+Options:
+
+1. DOJO TRAINING.
+2. PRIVATE HOME TRAINING.
+3. ONLINE TRAINING.
+
+If DOJO TRAINING:
+- Select the actual dojo.
+- If only one dojo exists, automatically preselect it.
+
+If PRIVATE HOME TRAINING:
+- Select the managing dojo.
+- Enter private training location.
+- Capture address and locality.
+
+If ONLINE TRAINING:
+- Select the managing dojo.
+- Capture platform and online class information.
+
+Store trainingMode independently of managingDojoId.
+
+Never create an orphan student.
+
+A student cannot be saved without a valid organisationId and managingDojoId.
+
+## 5.3 Student directory UI
+
+Provide:
+- Search by name, phone or belt.
+- Active filter.
+- Archived filter.
+- All filter.
+- Belt filters.
+- Training arrangement filters.
+- Dojo filtering based on permissions.
+
+Use compact, expandable student cards.
+
+Collapsed view:
+- Thumbnail / initials.
+- Student name.
+- Age.
+- Current belt.
+- Training arrangement.
+- Expand arrow.
+
+Expanded view:
+- Full details.
+- Guardian information.
+- Contact details.
+- Training mode.
+- Managing dojo.
+- Belt history.
+- Attendance summary.
+- Fee status.
+- Edit action.
+
+Provide a gear/action menu.
+
+Options:
+- Edit.
+- Mark inactive.
+- Archive.
+- View history.
+
+When marking inactive, capture the leaving date and optional reason.
+
+Do not permanently delete historical student records through ordinary UI operations.
+
+## 5.4 Martial arts titles
+
+Support:
+
+- Karateka – Beginner / Student.
+- Kohai – Junior Student.
+- Sempai – Senior Student.
+- Shihan – Master Instructor.
+
+Titles and instructor roles must remain separate concepts.
+
+Awarding a student a title must not automatically grant administrative permissions.
+
+---
+
+# PHASE 6 – CLASS SCHEDULING AND MONTHLY CALENDAR
+
+This module must be redesigned comprehensively.
+
+The Schedule tab should open a full monthly calendar.
+
+## 6.1 Calendar
+
+Display:
+- Month and year.
+- Previous / Next month controls.
+- Weekday labels.
+- Date cells.
+- Indicators for scheduled classes.
+- Indicators for special classes.
+- Indicators for cancelled classes.
+- Selected-day schedule underneath.
+
+Use clear visual distinctions.
+
+Allow selecting any date.
+
+The selected date should display its corresponding class sessions.
+
+## 6.2 Create class schedule
+
+Provide a polished schedule creation form.
+
+Fields:
+
+- Class name.
+- Martial arts activity.
+- Managing dojo.
+- Instructor.
+- Class date.
+- Start time.
+- End time.
+- Venue.
+- Class type.
+- Additional instructions.
+
+Support:
+
+- One-time classes.
+- Multiple class sessions.
+- Recurring classes.
+- Selected weekdays.
+- Weekends.
+- Weekdays.
+- Custom date ranges.
+- Special classes.
+- Cancelled classes.
+- No Class entries.
+
+Allow adding multiple sessions to a single announcement.
+
+Example:
+
+Friday:
+5:00 PM – 6:30 PM – Special Karate Class.
+
+Saturday:
+6:30 AM – 8:30 AM – Nunchaku and Kata.
+
+Saturday Evening:
+NO CLASS.
+
+Sunday:
+NO CLASS.
+
+Allow editing and deleting individual schedule entries.
+
+## 6.3 Class detail accordion
+
+Each schedule entry should expand into a detailed view.
+
+Display:
+- Class information.
+- Date.
+- Timing.
+- Instructor.
+- Dojo.
+- Eligible student count.
+- Attendance status.
+- Announcement information.
+
+Provide an Open Class action.
+
+---
+
+# PHASE 7 – ATTENDANCE INTEGRATED INTO CLASS SESSIONS
+
+This is a mandatory architectural rule.
+
+DO NOT create a separate standalone attendance workflow as the primary attendance method.
+
+Attendance must be accessed through:
+
+SCHEDULE → SELECT DATE → SELECT CLASS → OPEN CLASS → STUDENT LIST → MARK ATTENDANCE.
+
+## 7.1 Open Class
+
+When a Sensei or Shihan opens a class:
+
+Display the students eligible for that particular class.
+
+The list should contain:
+- Student photograph or initials.
+- Student name.
+- Belt level.
+- Attendance selector.
+
+Each student must have two selectable states:
+
+PRESENT – green.
+
+ABSENT – red.
+
+If ABSENT is selected:
+- Reveal an optional absence-reason field.
+
+Provide:
+- Mark All Present.
+- Mark All Absent.
+- Save Attendance.
+
+Show live attendance counts.
+
+Example:
+
+12 Students Enrolled.
+
+9 Present.
+
+3 Absent.
+
+## 7.2 Session-based attendance
+
+Every class occurrence must have its own unique session ID.
+
+Attendance must reference:
+
+- Organisation ID.
+- Dojo ID.
+- Class schedule ID.
+- Session ID.
+- Student ID.
+- Instructor ID.
+- Attendance status.
+- Optional absence reason.
+- Timestamp.
+
+If three classes happen on one date, attendance must be recorded separately for all three.
+
+Attendance in one session must never automatically mark a student present in another session.
+
+## 7.3 Attendance history
+
+Provide a history view for authorised users.
+
+Show:
+- Date.
+- Class.
+- Student.
+- Attendance status.
+- Instructor.
+- Modification history.
+
+Provide monthly attendance percentages.
+
+Support attendance analytics in Stats.
+
+Sensei should only access assigned class attendance.
+
+---
+
+# PHASE 8 – FEES AND FINANCIAL MANAGEMENT
+
+The Stats tab must contain the entire financial management area.
+
+## 8.1 Fee configuration
+
+Top Sensei or authorised Shihan can configure fee structures.
+
+Support:
+- Monthly.
+- Quarterly.
+- Half-yearly.
+- Annual.
+
+Fees can vary by:
+- Dojo.
+- Training arrangement.
+- Student category.
+- Class type, where required.
+
+Do not hardcode fee amounts.
+
+## 8.2 Student fee records
+
+Display:
+- Student name.
+- Managing dojo.
+- Training arrangement.
+- Fee plan.
+- Amount.
+- Last payment date.
+- Next due date.
+- Payment status.
+
+Statuses:
+- Paid.
+- Pending.
+- Overdue.
+- Partially Paid.
+
+## 8.3 Payment collection
+
+Support:
+- Cash.
+- UPI.
+- Bank transfer.
+- Other configurable methods.
+
+Generate unique receipt numbers.
+
+Allow receipt preview, printing and PDF export.
+
+Maintain a transaction ledger.
+
+Never overwrite historical transactions.
+
+## 8.4 Fee reminders
+
+Provide optional reminders to parents through supported communication channels.
+
+Reminders must be sent only when authorised and selected by the Sensei or administrator.
+
+Avoid automatic unsolicited messaging.
+
+## 8.5 Financial dashboard
+
+Display:
+- Total collections.
+- Pending fees.
+- Overdue fees.
+- Number of transactions.
+- Collection trends.
+- Student-wise ledgers.
+- Receipt history.
+
+Use real Firestore transaction data.
+
+---
+
+# PHASE 9 – WHATSAPP CLASS ANNOUNCEMENTS
+
+Create a built-in announcement generator.
+
+The Sensei should not need to manually compose the same weekly message repeatedly.
+
+## 9.1 Organisation announcement template
+
+Automatically populate:
+
+Organisation name.
+
+Affiliation line, if configured.
+
+Dojo name.
+
+Greeting.
+
+Schedule entries.
+
+Closing message.
+
+Instructor / organisation signature.
+
+Example:
+
+JAPAN FUNAKOSHI SHOTOKAN KARATE DO INDIA FEDERATION
+
+Member of World JKA Karate Association (WJKA)
+
+Dear parents & students,
+
+This week's Karate & Silambam classes are scheduled as follows:
+
+FRIDAY
+5:00 PM – 6:30 PM
+Special Class.
+
+SATURDAY – 31 October 2026
+Morning: 6:30 AM – 8:30 AM
+Nunchaku and Kata.
+
+Evening: NO CLASS.
+
+SUNDAY
+NO CLASS.
+
+Please come in your Karate uniform.
+
+Kindly bring breakfast or snacks where required.
+
+Thank you,
+Sri Sankara Dojo.
+
+All dates, times and activities must be generated from actual saved schedule data.
+
+Do not hardcode example dates.
+
+## 9.2 Template configuration
+
+Allow organisation administrators to configure:
+
+- Organisation heading.
+- Affiliation.
+- Greeting.
+- Closing message.
+- Signature.
+- Default uniform instructions.
+- Items to bring.
+- Regional language template in future.
+
+## 9.3 Sharing actions
+
+Provide:
+
+1. PREVIEW MESSAGE.
+2. COPY MESSAGE.
+3. SHARE VIA WHATSAPP.
+
+COPY MESSAGE:
+Copy the entire formatted message.
+
+SHARE VIA WHATSAPP:
+Use the native Web Share API or appropriate WhatsApp sharing mechanism.
+
+On mobile, allow selecting WhatsApp and the desired group/contact through the sharing interface.
+
+On desktop, support WhatsApp Web where possible.
+
+Do not falsely claim a message was sent.
+
+A standard sharing link cannot guarantee automatic delivery to a selected WhatsApp group. User confirmation is required.
+
+Save previous announcements in Firestore.
+
+Allow editing upcoming announcements and reusing previous templates.
+
+---
+
+# PHASE 10 – EVENTS, TOURNAMENTS AND BELT PROGRESSION
+
+## 10.1 Events
+
+The Events tab should provide category tabs for:
+
+- Tournaments.
+- Seminars.
+- Belt Examinations.
+- Special Events.
+- Announcements.
+
+Each event should support:
+
+- Event name.
+- Description.
+- Poster upload.
+- Organiser.
+- Venue.
+- Start date.
+- End date.
+- Registration deadline.
+- Eligibility.
+- Contact information.
+- Event status.
+
+Support Upcoming, Ongoing, Completed and Cancelled.
+
+Allow uploading posters to Firebase Storage.
+
+Display attractive event cards with poster thumbnails.
+
+## 10.2 Belt progression
+
+Support configurable grading structures.
+
+Default karate belt sequence:
+
+- White.
+- Yellow.
+- Orange.
+- Green.
+- Blue.
+- Purple.
+- Brown.
+- Black.
+
+Allow organisations to customise belt structures because different martial arts styles and federations may use different grading systems.
+
+For black belt, support Dan levels.
+
+## 10.3 Student progression
+
+Each student must have:
+
+- Starting belt.
+- Current belt.
+- Promotion dates.
+- Grading history.
+- Instructor remarks.
+- Examination results.
+
+Support promotion history.
+
+Never overwrite previous belt records when a student is promoted.
+
+## 10.4 Grading candidates
+
+Create a Grading Candidates section.
+
+Allow instructors to nominate eligible students.
+
+Display:
+- Student.
+- Current belt.
+- Target belt.
+- Training duration.
+- Attendance percentage.
+- Eligibility status.
+- Examination date.
+
+Allow authorised Shihan / Top Sensei users to approve promotions.
+
+---
+
+# PHASE 11 – STATS AND REPORTING
+
+The Stats tab combines:
+
+1. Fees.
+2. Attendance.
+3. Student analytics.
+4. Belt progression.
+5. Reports.
+
+Provide internal sub-tabs.
+
+### Fees
+Collection summaries, pending payments, receipts and ledgers.
+
+### Attendance
+Daily, weekly and monthly attendance statistics.
+
+### Students
+Active students, archived students and training-mode breakdown.
+
+### Belt Progression
+Current belt distribution, upcoming grading and promotion history.
+
+### Reports
+Generate useful reports with date and dojo filters.
+
+Support CSV and PDF exports where appropriate.
+
+Respect user permissions when generating reports.
+
+---
+
+# PHASE 12 – FIREBASE ARCHITECTURE AND SECURITY
+
+Use the EXISTING Firebase project.
+
+Retain the existing configuration and credentials.
+
+Do not ask the user to create another Firebase project.
+
+Adapt the following recommended structure to the current database.
+
+### Suggested collections
+
+organisations
+
+dojos
+
+users
+
+organisationMemberships
+
+instructorAssignments
+
+students
+
+guardians
+
+guardianStudentLinks
+
+classSchedules
+
+classSessions
+
+attendance
+
+feeStructures
+
+studentFeeAccounts
+
+feeTransactions
+
+receipts
+
+events
+
+tournaments
+
+gradingExaminations
+
+beltPromotions
+
+announcements
+
+auditLogs
+
+settings
+
+### Core relationship rules
+
+Every student must have:
+- organisationId.
+- managingDojoId.
+
+Every dojo must have:
+- organisationId.
+
+Every schedule must have:
+- organisationId.
+- dojoId.
+
+Every class session must have:
+- scheduleId.
+- organisationId.
+- dojoId.
+
+Every attendance record must have:
+- studentId.
+- sessionId.
+- instructorId.
+- organisationId.
+- dojoId.
+
+Every instructor must have:
+- User ID.
+- Role.
+- Organisation membership.
+- Explicit dojo/class assignments where applicable.
+
+Every parent relationship must be explicitly authorised.
+
+### Security
+
+Implement Firestore Security Rules.
+
+Do not rely on frontend checks.
+
+Validate:
+- Authentication.
+- Organisation membership.
+- Role.
+- Dojo assignment.
+- Resource ownership.
+- Allowed operations.
+
+Restrict financial and administrative operations.
+
+Protect student photographs and guardian contact information.
+
+Do not expose private data through public Firebase Storage URLs or unauthorised reads.
+
+Use server-side validation or trusted Cloud Functions for sensitive operations where appropriate.
+
+Use Firestore transactions or batched writes for related operations where necessary.
+
+Avoid duplicate transactions, attendance records and student registrations.
+
+Add appropriate Firestore indexes.
+
+### Offline support
+
+Prepare attendance workflows for intermittent connectivity.
+
+If offline attendance is enabled:
+- Preserve pending changes.
+- Display unsynchronised status.
+- Synchronise safely when connectivity returns.
+- Prevent duplicate attendance entries.
+- Resolve conflicting edits safely.
+
+Do not falsely show an unsaved record as successfully synchronised.
+
+### Parent portal preparation
+
+Prepare guardianStudentLinks and guardian permissions.
+
+Do not implement parent login or expose parent screens in this release.
+
+---
+
+# PHASE 13 – REGIONAL LANGUAGE READINESS
+
+DojoFLOW must be suitable for instructors with different language preferences.
+
+Prepare the application for localisation.
+
+Initial language:
+English.
+
+Prepare architecture for:
+- Tamil.
+- Hindi.
+- Kannada.
+- Telugu.
+- Malayalam.
+- Japanese.
+
+Use centralised translation resources.
+
+Do not hardcode UI strings throughout the application.
+
+Dates, currency and numerical formatting should respect the selected locale.
+
+Allow language selection in Settings when translations are available.
+
+Do not use machine-translated text without review for important official announcements.
+
+---
+
+# PHASE 14 – PRODUCTION QUALITY AND RESPONSIVENESS
+
+The application must work well on:
+
+- Android phones.
+- iPhones.
+- Tablets.
+- Desktop browsers.
+
+Prioritise mobile first.
+
+Test at:
+- 360px width.
+- 390px width.
+- 430px width.
+- Tablet widths.
+- Desktop widths.
+
+Ensure:
+- No horizontal overflow.
+- No clipped text.
+- No awkward navigation wrapping.
+- No overlapping floating buttons.
+- No inaccessible controls.
+- No keyboard covering essential form buttons.
+- Proper loading indicators.
+- Empty states.
+- Error states.
+- Success feedback.
+- Confirmation before destructive actions.
+
+Use consistent reusable components.
+
+Provide smooth but restrained animations.
+
+Do not overuse gradients, shadows or decorative elements.
+
+The product should feel premium, not cluttered.
+
+---
+
+# PHASE 15 – TESTING AND ACCEPTANCE CRITERIA
+
+Do not declare completion based only on successful compilation.
+
+Verify the actual workflows.
+
+## Authentication and onboarding
+
+1. New owner signs in.
+2. Onboarding appears once.
+3. Owner enters academy information.
+4. Owner creates first dojo.
+5. Owner adds additional dojos.
+6. Owner finishes setup.
+7. Dashboard opens.
+8. Owner logs out and logs back in.
+9. Dashboard opens directly.
+10. No onboarding flash occurs.
+11. Existing user on a new device is not asked to repeat setup.
+12. Invited Shihan and Sensei do not receive owner onboarding.
+
+## Dojo management
+
+13. One-dojo organisation shows no unnecessary tabs.
+14. Multiple-dojo organisation shows actual dojo tabs.
+15. No All Dojos button exists.
+16. Switching dojos updates the data.
+
+## Students
+
+17. Regular dojo student registration works.
+18. Private student registration works.
+19. Online student registration works.
+20. No orphan students can be created.
+21. Student search and filters work.
+22. Student accordion works.
+23. Editing and archiving work.
+24. Existing student history remains intact.
+
+## Permissions
+
+25. Top Sensei has organisation-wide access.
+26. Shihan has assigned dojo access.
+27. Sensei has attendance and class management only.
+28. Sensei cannot access fees or administrative controls.
+29. Unauthorised Firebase reads and writes are denied.
+
+## Scheduling and attendance
+
+30. Monthly calendar works.
+31. Previous and next month navigation works.
+32. Multiple sessions on one date work.
+33. Recurring schedules work.
+34. No Class entries work.
+35. Class details expand correctly.
+36. Eligible students are displayed.
+37. Present and Absent controls work.
+38. Absence reasons can be entered.
+39. Attendance saves against the correct session.
+40. Multiple classes on the same day retain separate attendance.
+
+## Financial management
+
+41. Fee configuration works.
+42. Monthly, quarterly, half-yearly and annual plans work.
+43. Payments are recorded accurately.
+44. Receipts are generated.
+45. Historical transactions remain intact.
+46. Financial statistics use actual data.
+
+## Announcements and events
+
+47. WhatsApp announcement generation works.
+48. Dojo and organisation names populate correctly.
+49. Actual schedule dates and times populate correctly.
+50. Copy Message works.
+51. WhatsApp sharing works where supported.
+52. Tournament poster upload works.
+53. Events can be edited and archived.
+
+## Belt progression
+
+54. Belt promotion works.
+55. Promotion history is preserved.
+56. Grading candidates can be managed.
+57. Dan levels are supported.
+
+## Final application quality
+
+58. No runtime crashes.
+59. No broken navigation.
+60. No duplicate records.
+61. No lost Firebase data.
+62. No non-functional buttons.
+63. Responsive layouts work.
+64. Loading and error states work.
+
+---
+
+# IMPLEMENTATION EXECUTION STRATEGY
+
+Do not attempt to make superficial changes to every screen simultaneously.
+
+Work in the following controlled stages.
+
+STAGE 1:
+Inspect existing application, Firebase, routing, authentication and database. Fix the onboarding flash bug and account routing.
+
+STAGE 2:
+Implement and verify organisation hierarchy, dojo relationships, role-based access and instructor assignments.
+
+STAGE 3:
+Implement the new global design system, header, dojo tabs, central punching emblem and five-item bottom navigation.
+
+STAGE 4:
+Refine Dashboard, Student Directory and student registration.
+
+STAGE 5:
+Implement the monthly calendar, class schedules and session-based attendance.
+
+STAGE 6:
+Implement WhatsApp announcements and sharing.
+
+STAGE 7:
+Refine Fees, Events, Belt Progression and Stats.
+
+STAGE 8:
+Prepare parent relationship architecture, localisation readiness and offline attendance support.
+
+STAGE 9:
+Run complete functional, security and responsive testing.
+
+After each stage:
+- Check for compilation errors.
+- Check for runtime errors.
+- Verify Firebase connectivity.
+- Test affected workflows.
+- Confirm existing functionality remains intact.
+
+If a stage exposes a dependency, resolve it before moving forward.
+
+Do not silently skip unfinished requirements.
+
+Do not replace real functionality with static mockups.
+
+Do not claim a feature is complete unless it actually works.
+
+Maintain the existing project structure where practical and avoid unnecessary dependencies.
+
+If a third-party integration requires credentials, implement the appropriate configuration interface and clearly identify the required setup instead of pretending the integration is active.
+
+---
+
+# FINAL PRODUCT EXPECTATION
+
+The finished DojoFLOW application must be:
+
+- Beautiful.
+- Fast.
+- Reliable.
+- Secure.
+- Intuitive.
+- Mobile-first.
+- Scalable.
+- Data-driven.
+- Production-oriented.
+
+A Sensei should be able to open the app, find today's class, open the student list and mark attendance within seconds.
+
+A Shihan should be able to manage an assigned dojo without seeing unrelated organisation information.
+
+A Top Sensei should be able to oversee the entire federation.
+
+A parent should eventually be able to follow their child's martial arts journey through a secure family portal.
+
+Every screen must have a purpose.
+
+Every button must work.
+
+Every record must have a valid relationship.
+
+Every role must have appropriate permissions.
+
+Every financial transaction and attendance record must be traceable.
+
+**THE MOST IMPORTANT RULE: Preserve the existing working Firebase application and its data. Upgrade it intelligently. Do not rebuild it as a disconnected demonstration.**
+
+Build DojoFLOW as a serious commercial product that can grow from a single local Karate Dojo into an international Martial Arts Federation Management Platform.
+
+Let's build something exceptional.
+
+DOJOFLOW – MANAGE YOUR DOJO. DEVELOP YOUR STUDENTS. BUILD YOUR LEGACY.

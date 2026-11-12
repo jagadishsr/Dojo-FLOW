@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><title>DojoFLOW — Register New Dojo Branch</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#faf9ff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#e4bdba", "primary": "#a30018", "on-tertiary": "#ffffff", "on-error": "#ffffff", "inverse-surface": "#2b3139", "on-tertiary-fixed": "#181b23", "error": "#ba1a1a", "primary-fixed-dim": "#ffb3ae", "surface-bright": "#f8f9ff", "on-primary-fixed": "#410004", "on-secondary-container": "#69000f", "tertiary-container": "#656771", "surface-container-high": "#e3e8f4", "inverse-primary": "#ffb3ae", "primary-fixed": "#ffdad7", "tertiary-fixed-dim": "#c4c6d1", "on-secondary": "#ffffff", "on-secondary-fixed": "#410006", "on-secondary-fixed-variant": "#8e111e", "surface-tint": "#bb1423", "secondary-container": "#fe6666", "surface-dim": "#d5dae5", "tertiary-fixed": "#e0e2ed", "on-surface": "#161c24", "surface": "#f8f9ff", "secondary-fixed": "#ffdad8", "surface-container": "#e9eef9", "secondary": "#b02c32", "surface-variant": "#dde3ee", "on-primary": "#ffffff", "secondary-fixed-dim": "#ffb3b0", "tertiary": "#4c4f58", "surface-container-highest": "#dde3ee", "on-background": "#161c24", "on-tertiary-container": "#e5e6f2", "error-container": "#ffdad6", "inverse-on-surface": "#ebf1fc", "on-primary-fixed-variant": "#930015", "surface-container-low": "#eef4ff", "on-primary-container": "#ffe0de", "primary-container": "#c9212b", "background": "#f8f9ff", "on-surface-variant": "#5b403e", "on-error-container": "#93000a", "surface-container-lowest": "#ffffff", "on-tertiary-fixed-variant": "#44474f", "outline": "#906f6d" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "gutter": "1rem", "margin-tablet": "2rem", "gutter-tablet": "1.25rem", "space-xl": "2rem", "space-2xs": "0.25rem", "gutter-desktop": "1.5rem", "margin": "1rem", "space-2xl": "3rem", "space-sm": "0.75rem", "space-xs": "0.5rem", "space-md": "1rem", "margin-desktop": "2.5rem" }, "fontFamily": { "display": ["Rajdhani", "sans-serif"], "headline-lg": ["Rajdhani", "sans-serif"], "headline-lg-mobile": ["Rajdhani", "sans-serif"], "headline-md": ["Rajdhani", "sans-serif"], "headline-sm": ["Rajdhani", "sans-serif"], "metric-stat": ["Manrope", "sans-serif"], "body-lg": ["Manrope", "sans-serif"], "body-md": ["Manrope", "sans-serif"], "body-sm": ["Manrope", "sans-serif"], "label-md": ["Manrope", "sans-serif"], "label-sm": ["Manrope", "sans-serif"], "rajdhani": ["Rajdhani", "sans-serif"], "manrope": ["Manrope", "sans-serif"] }, "fontSize": { "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "0.01em", "fontWeight": "700" }], "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "metric-stat": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "body-md": ["13px", { "lineHeight": "19px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "0.01em", "fontWeight": "700" }], "display": ["40px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<!-- COMPONENT 1: PERSISTENT FEDERATION HEADER -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-gradient-to-r from-[#971923] to-[#C9212B] shadow-[0_4px_16px_rgba(163,0,24,0.20)]">
+  <div class="h-16 px-4 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <svg class="h-9 w-9 shrink-0 drop-shadow-sm" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="JFSKIF Federation Crest">
+        <circle cx="50" cy="50" r="47" stroke="#FFE082" stroke-width="2.5" fill="#971923"/>
+        <circle cx="50" cy="50" r="42" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <circle cx="50" cy="50" r="32" fill="#C9212B"/>
+        <circle cx="50" cy="50" r="30.5" stroke="#FFE082" stroke-width="0.8"/>
+        <circle cx="41" cy="33" r="5" fill="#FFFFFF"/>
+        <path d="M36 32 C29 30 27 34 29 36 C33 34 37 34 37 34 Z" fill="#FFFFFF"/>
+        <path d="M41 38 L50 43 L46 56 L36 56 L34 42 Z" fill="#FFFFFF"/>
+        <path d="M49 43 L63 42 L73 42" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="73" cy="42" r="3.2" fill="#FFFFFF"/>
+        <path d="M34 43 L29 48 L34 52" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M35 56 L47 56" stroke="#FFE082" stroke-width="2" stroke-linecap="round"/>
+        <path d="M37 56 L31 70 L37 70 L43 58 Z" fill="#FFFFFF"/>
+        <path d="M45 56 L53 70 L61 70 L49 58 Z" fill="#FFFFFF"/>
+        <text x="50" y="90" text-anchor="middle" fill="#FFE082" font-size="8" font-family="'Rajdhani', sans-serif" font-weight="700" letter-spacing="1.2">JFSKIF</text>
+      </svg>
+      <div class="flex flex-col min-w-0">
+        <span class="font-display text-[13px] sm:text-[14px] font-bold text-white tracking-wide truncate leading-tight uppercase">JAPAN FUNAKOSHI SHOTOKAN KARATE INDIA FEDERATION (JFSKIF)</span>
+        <span class="font-manrope text-[10px] font-semibold text-white/90 tracking-wider leading-none mt-0.5">Powered by DojoFLOW</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <a aria-label="Settings" class="w-10 h-10 flex items-center justify-center text-white/90 hover:text-white transition-colors" data-path="settings" href="../profile_dojo_settings/code.html">
+        <span class="material-symbols-outlined text-[22px]">settings</span>
+      </a>
+      <div class="p-0.5 rounded-full ring-2 ring-white/30">
+        <div class="w-8 h-8 rounded-full bg-[#FFE0DE] text-primary flex items-center justify-center font-display font-bold text-sm">RK</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 w-full bg-surface pt-16 pb-28">
+  <div class="flex flex-col w-full px-margin pt-3 pb-8 max-w-xl mx-auto">
+    <!-- Sub-Screen Back Navigation Header -->
+    <div class="flex items-center justify-between py-2 border-b border-outline-variant/20 mb-3">
+      <a href="../dojoflow_master_dashboard/code.html" class="inline-flex items-center gap-1.5 text-primary hover:underline font-manrope text-[13px] font-bold">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span>Back to Dashboard</span>
+      </a>
+      <span class="font-mono text-[11px] text-tertiary bg-surface-container px-2 py-0.5 rounded">NEW BRANCH</span>
+    </div>
+
+    <div class="flex items-center gap-2 mb-3">
+      <div class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shrink-0 shadow-sm">
+        <span class="material-symbols-outlined text-[22px]">add_business</span>
+      </div>
+      <div>
+        <h1 class="font-display text-[22px] font-bold text-on-surface leading-tight">Register New Dojo Branch</h1>
+        <p class="font-manrope text-[12px] text-on-surface-variant">Expand JFSKIF federation operations with a sanctioned dojo</p>
+      </div>
+    </div>
+
+    <!-- Registration Form -->
+    <form class="flex flex-col gap-4" onsubmit="event.preventDefault(); alert('Dojo Branch Registered Successfully!'); window.location.href='../dojoflow_master_dashboard/code.html';">
+      <!-- Section 1: Branch Identity -->
+      <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-3">
+        <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[14px] uppercase border-b border-outline-variant/15 pb-1.5">
+          <span class="material-symbols-outlined text-[18px]">temple_buddhist</span>
+          <span>1. Branch Identity</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Dojo Branch Name *</label>
+          <input type="text" required placeholder="e.g. Madurai Meenakshi Dojo" value="Madurai Meenakshi Dojo" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Branch Code *</label>
+            <input type="text" required placeholder="e.g. MDU-01" value="MDU-01" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-mono text-[13px] uppercase focus:outline-none focus:border-primary focus:bg-white">
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Sanction Status</label>
+            <div class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center gap-1.5 text-[#1E9B61] font-manrope text-[12px] font-bold">
+              <span class="material-symbols-outlined text-[16px]">verified</span>
+              <span>JFSKIF Sanctioned</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Address & Location -->
+      <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-3">
+        <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[14px] uppercase border-b border-outline-variant/15 pb-1.5">
+          <span class="material-symbols-outlined text-[18px]">location_on</span>
+          <span>2. Physical Location</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Facility / Building Name *</label>
+          <input type="text" required placeholder="e.g. Meenakshi Sports Complex, 2nd Floor" value="Meenakshi Sports Complex, 2nd Floor" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Street Address *</label>
+          <input type="text" required placeholder="e.g. 14 East Veli Street" value="14 East Veli Street" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">City *</label>
+            <input type="text" required placeholder="e.g. Madurai" value="Madurai" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Postal Code *</label>
+            <input type="text" required placeholder="e.g. 625001" value="625001" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">State</label>
+            <input type="text" readonly value="Tamil Nadu" class="h-11 px-3 rounded-lg bg-surface-container text-on-surface-variant font-manrope text-[13px]">
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Country</label>
+            <input type="text" readonly value="India" class="h-11 px-3 rounded-lg bg-surface-container text-on-surface-variant font-manrope text-[13px]">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Contact Details -->
+      <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-3">
+        <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[14px] uppercase border-b border-outline-variant/15 pb-1.5">
+          <span class="material-symbols-outlined text-[18px]">contact_phone</span>
+          <span>3. Contact Information</span>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Contact Phone (+91) *</label>
+            <input type="tel" required placeholder="e.g. +91 94433 12908" value="+91 94433 12908" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Branch Email *</label>
+            <input type="email" required placeholder="e.g. madurai@jfskif-karate.in" value="madurai@jfskif-karate.in" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Assigned Head Instructor -->
+      <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-3">
+        <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[14px] uppercase border-b border-outline-variant/15 pb-1.5">
+          <span class="material-symbols-outlined text-[18px]">sports_martial_arts</span>
+          <span>4. Assigned Instructor</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Head Sensei / Shihan *</label>
+          <select required class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+            <option value="shihan_rajesh">Shihan Rajesh Kumar (6th Dan) — Supervising Director</option>
+            <option value="sensei_ananya">Sensei Ananya Rao (3rd Dan) — Appointed Head Instructor</option>
+            <option value="sensei_vikram">Sensei Vikram Malhotra (1st Dan) — Assistant Sensei</option>
+            <option value="new_instructor">+ Appoint New Black Belt Instructor</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Federation License No.</label>
+          <input type="text" value="JFSKIF-BRANCH-2026-004" readonly class="h-11 px-3 rounded-lg bg-surface-container font-mono text-[12px] text-tertiary">
+        </div>
+      </div>
+
+      <!-- Section 5: Standard Fee Structure -->
+      <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-3">
+        <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[14px] uppercase border-b border-outline-variant/15 pb-1.5">
+          <span class="material-symbols-outlined text-[18px]">currency_rupee</span>
+          <span>5. Standard Monthly &amp; Annual Fees</span>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Monthly Cadet Fee (₹) *</label>
+            <input type="number" required value="2200" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="font-manrope text-[11px] font-bold uppercase text-tertiary tracking-wide">Quarterly Regular (₹) *</label>
+            <input type="number" required value="4500" class="h-11 px-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-on-surface font-manrope text-[13px] focus:outline-none focus:border-primary focus:bg-white">
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 pt-2">
+        <a href="../dojoflow_master_dashboard/code.html" class="flex-1 h-12 rounded-xl bg-surface-container-high text-on-surface font-display text-[15px] font-bold flex items-center justify-center hover:bg-surface-variant transition-colors">
+          Cancel
+        </a>
+        <button type="submit" class="flex-1 h-12 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-display text-[15px] font-bold tracking-wide uppercase shadow-[0_4px_14px_rgba(163,0,24,0.30)] active:scale-[0.99] transition-transform flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-[18px]">add_business</span>
+          <span>Register Branch</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<!-- COMPONENT 8: BOTTOM NAVIGATION -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-semibold">
+  <div class="h-20 px-space-xs flex items-center justify-around relative">
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="students" href="../students_directory/code.html">
+      <span class="material-symbols-outlined text-[24px]">sports_martial_arts</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">STUDENTS</span>
+    </a>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="schedule" href="../schedule_monthly_calendar/code.html">
+      <span class="material-symbols-outlined text-[24px]">calendar_today</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">SCHEDULE</span>
+    </a>
+    <!-- Center Raised Home Button: 62-66dp, white karate emblem, red circular gradient, STRICTLY NO TEXT LABEL -->
+    <div class="relative flex flex-col items-center justify-center px-1">
+      <a aria-label="Home Dashboard" class="w-[62px] h-[62px] -mt-5 rounded-full bg-gradient-to-br from-[#971923] to-[#C9212B] flex items-center justify-center shadow-[0_6px_18px_rgba(163,0,24,0.40)] active:scale-95 transition-transform duration-150 shrink-0" data-path="home" href="../dojoflow_master_dashboard/code.html">
+        <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Karate Punching Emblem">
+          <circle cx="36" cy="22" r="11" fill="#FFFFFF"/>
+          <path d="M28 20 C16 17 12 24 15 28 C22 23 30 24 30 24 Z" fill="#FFFFFF"/>
+          <path d="M36 32 L52 40 L46 62 L30 62 L24 38 Z" fill="#FFFFFF"/>
+          <path d="M50 40 L72 39 L86 39" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="86" cy="39" r="7.5" fill="#FFFFFF"/>
+          <path d="M26 40 L18 48 L26 54" stroke="#FFFFFF" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M28 62 L48 62" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+          <path d="M30 62 L18 86 L28 86 L38 64 Z" fill="#FFFFFF"/>
+          <path d="M44 62 L60 86 L74 86 L50 64 Z" fill="#FFFFFF"/>
+        </svg>
+      </a>
+    </div>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="events" href="../events_tournaments_directory/code.html">
+      <span class="material-symbols-outlined text-[24px]">emoji_events</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">EVENTS</span>
+    </a>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="stats" href="../stats_financial_analytics/code.html">
+      <span class="material-symbols-outlined text-[24px]">analytics</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">STATS</span>
+    </a>
+  </div>
+</nav>
+
+</body></html>

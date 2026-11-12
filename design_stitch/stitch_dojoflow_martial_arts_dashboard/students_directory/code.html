@@ -1,0 +1,556 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><title>DojoFLOW — Students Directory</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#faf9ff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#e4bdba", "primary": "#a30018", "on-tertiary": "#ffffff", "on-error": "#ffffff", "inverse-surface": "#2b3139", "on-tertiary-fixed": "#181b23", "error": "#ba1a1a", "primary-fixed-dim": "#ffb3ae", "surface-bright": "#f8f9ff", "on-primary-fixed": "#410004", "on-secondary-container": "#69000f", "tertiary-container": "#656771", "surface-container-high": "#e3e8f4", "inverse-primary": "#ffb3ae", "primary-fixed": "#ffdad7", "tertiary-fixed-dim": "#c4c6d1", "on-secondary": "#ffffff", "on-secondary-fixed": "#410006", "on-secondary-fixed-variant": "#8e111e", "surface-tint": "#bb1423", "secondary-container": "#fe6666", "surface-dim": "#d5dae5", "tertiary-fixed": "#e0e2ed", "on-surface": "#161c24", "surface": "#f8f9ff", "secondary-fixed": "#ffdad8", "surface-container": "#e9eef9", "secondary": "#b02c32", "surface-variant": "#dde3ee", "on-primary": "#ffffff", "secondary-fixed-dim": "#ffb3b0", "tertiary": "#4c4f58", "surface-container-highest": "#dde3ee", "on-background": "#161c24", "on-tertiary-container": "#e5e6f2", "error-container": "#ffdad6", "inverse-on-surface": "#ebf1fc", "on-primary-fixed-variant": "#930015", "surface-container-low": "#eef4ff", "on-primary-container": "#ffe0de", "primary-container": "#c9212b", "background": "#f8f9ff", "on-surface-variant": "#5b403e", "on-error-container": "#93000a", "surface-container-lowest": "#ffffff", "on-tertiary-fixed-variant": "#44474f", "outline": "#906f6d" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "gutter": "1rem", "margin-tablet": "2rem", "gutter-tablet": "1.25rem", "space-xl": "2rem", "space-2xs": "0.25rem", "gutter-desktop": "1.5rem", "margin": "1rem", "space-2xl": "3rem", "space-sm": "0.75rem", "space-xs": "0.5rem", "space-md": "1rem", "margin-desktop": "2.5rem" }, "fontFamily": { "display": ["Rajdhani", "sans-serif"], "headline-lg": ["Rajdhani", "sans-serif"], "headline-lg-mobile": ["Rajdhani", "sans-serif"], "headline-md": ["Rajdhani", "sans-serif"], "headline-sm": ["Rajdhani", "sans-serif"], "metric-stat": ["Manrope", "sans-serif"], "body-lg": ["Manrope", "sans-serif"], "body-md": ["Manrope", "sans-serif"], "body-sm": ["Manrope", "sans-serif"], "label-md": ["Manrope", "sans-serif"], "label-sm": ["Manrope", "sans-serif"], "rajdhani": ["Rajdhani", "sans-serif"], "manrope": ["Manrope", "sans-serif"] }, "fontSize": { "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "0.01em", "fontWeight": "700" }], "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "metric-stat": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "body-md": ["13px", { "lineHeight": "19px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "0.01em", "fontWeight": "700" }], "display": ["40px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<!-- COMPONENT 1: PERSISTENT FEDERATION HEADER -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-gradient-to-r from-[#971923] to-[#C9212B] shadow-[0_4px_16px_rgba(163,0,24,0.20)]">
+  <div class="h-16 px-4 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <!-- Self-Contained JFSKIF Crest SVG -->
+      <svg class="h-9 w-9 shrink-0 drop-shadow-sm" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="JFSKIF Federation Crest">
+        <circle cx="50" cy="50" r="47" stroke="#FFE082" stroke-width="2.5" fill="#971923"/>
+        <circle cx="50" cy="50" r="42" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <circle cx="50" cy="50" r="32" fill="#C9212B"/>
+        <circle cx="50" cy="50" r="30.5" stroke="#FFE082" stroke-width="0.8"/>
+        <circle cx="41" cy="33" r="5" fill="#FFFFFF"/>
+        <path d="M36 32 C29 30 27 34 29 36 C33 34 37 34 37 34 Z" fill="#FFFFFF"/>
+        <path d="M41 38 L50 43 L46 56 L36 56 L34 42 Z" fill="#FFFFFF"/>
+        <path d="M49 43 L63 42 L73 42" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="73" cy="42" r="3.2" fill="#FFFFFF"/>
+        <path d="M34 43 L29 48 L34 52" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M35 56 L47 56" stroke="#FFE082" stroke-width="2" stroke-linecap="round"/>
+        <path d="M37 56 L31 70 L37 70 L43 58 Z" fill="#FFFFFF"/>
+        <path d="M45 56 L53 70 L61 70 L49 58 Z" fill="#FFFFFF"/>
+        <text x="50" y="90" text-anchor="middle" fill="#FFE082" font-size="8" font-family="'Rajdhani', sans-serif" font-weight="700" letter-spacing="1.2">JFSKIF</text>
+      </svg>
+      <div class="flex flex-col min-w-0">
+        <span class="font-display text-[13px] sm:text-[14px] font-bold text-white tracking-wide truncate leading-tight uppercase">JAPAN FUNAKOSHI SHOTOKAN KARATE INDIA FEDERATION (JFSKIF)</span>
+        <span class="font-manrope text-[10px] font-semibold text-white/90 tracking-wider leading-none mt-0.5">Powered by DojoFLOW</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <a aria-label="Settings" class="w-10 h-10 flex items-center justify-center text-white/90 hover:text-white transition-colors" data-path="settings" href="../profile_dojo_settings/code.html">
+        <span class="material-symbols-outlined text-[22px]">settings</span>
+      </a>
+      <div class="p-0.5 rounded-full ring-2 ring-white/30">
+        <div class="w-8 h-8 rounded-full bg-[#FFE0DE] text-primary flex items-center justify-center font-display font-bold text-sm">RK</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 w-full bg-surface pt-16 pb-28">
+  <div class="flex flex-col w-full">
+    <!-- Static Active Dojo Context Banner (No branch dropdown/switcher) -->
+    <div class="px-margin pt-3 pb-1 flex items-center justify-between">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high/80 text-on-surface border border-outline-variant/30 text-[11px] font-manrope font-semibold">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        <span class="text-on-surface-variant">Active Branch:</span>
+        <span class="font-bold text-primary">Sri Sankara Dojo (Chennai)</span>
+      </div>
+      <span class="text-on-surface-variant font-manrope text-[11px] font-medium">482 Enrolled</span>
+    </div>
+
+    <!-- Functional Search & Filter Bar -->
+    <div class="flex flex-col gap-space-sm px-margin pt-2 pb-space-xs bg-surface/95 backdrop-blur-md">
+      <div class="flex items-center gap-space-xs w-full">
+        <div class="flex-1 relative flex items-center bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-outline absolute left-3 text-[20px] pointer-events-none">search</span>
+          <input class="w-full pl-10 pr-9 py-2.5 bg-transparent font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none rounded-xl" id="studentSearchInput" placeholder="Search student by name, ID, phone..." type="text">
+          <button aria-label="Clear search" class="hidden absolute right-2.5 p-1 text-outline hover:text-on-surface transition-colors" id="clearSearchBtn">
+            <span class="material-symbols-outlined text-[18px]">cancel</span>
+          </button>
+        </div>
+        <button aria-label="Filter options" class="h-[42px] px-3 bg-surface-container-lowest text-on-surface hover:text-primary rounded-xl shadow-sm border border-outline-variant/20 flex items-center justify-center gap-1 transition-colors active:scale-95 shrink-0">
+          <span class="material-symbols-outlined text-[20px]">tune</span>
+        </button>
+      </div>
+
+      <!-- Status Segmented Controls -->
+      <div class="grid grid-cols-3 p-1 bg-surface-container-high rounded-xl gap-1">
+        <button class="status-seg active py-1.5 px-2 rounded-lg font-label-md text-label-md transition-all text-center font-bold bg-primary text-on-primary shadow-sm" data-tab="active">
+          Active (482)
+        </button>
+        <button class="status-seg py-1.5 px-2 rounded-lg font-label-md text-label-md transition-all text-center text-on-surface-variant hover:text-on-surface font-medium" data-tab="archived">
+          Archived (34)
+        </button>
+        <button class="status-seg py-1.5 px-2 rounded-lg font-label-md text-label-md transition-all text-center text-on-surface-variant hover:text-on-surface font-medium" data-tab="all">
+          All (516)
+        </button>
+      </div>
+
+      <!-- Horizontal Belt Filter Ribbon -->
+      <div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar py-0.5 -mx-margin px-margin">
+        <button class="belt-chip active shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-on-primary text-label-sm font-label-sm shadow-sm transition-transform active:scale-95">
+          <span class="w-2 h-2 rounded-full bg-white"></span>
+          <span>All Belts</span>
+        </button>
+        <button class="belt-chip shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-sm font-label-sm shadow-sm border border-outline-variant/20 transition-all active:scale-95">
+          <span class="w-2.5 h-2 rounded-sm bg-surface-container-high shadow-inner"></span>
+          <span>White (9th Kyu)</span>
+        </button>
+        <button class="belt-chip shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-sm font-label-sm shadow-sm border border-outline-variant/20 transition-all active:scale-95">
+          <span class="w-2.5 h-2 rounded-sm bg-[#EAB308]"></span>
+          <span>Yellow (8th Kyu)</span>
+        </button>
+        <button class="belt-chip shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-sm font-label-sm shadow-sm border border-outline-variant/20 transition-all active:scale-95">
+          <span class="w-2.5 h-2 rounded-sm bg-[#F97316]"></span>
+          <span>Orange</span>
+        </button>
+        <button class="belt-chip shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-sm font-label-sm shadow-sm border border-outline-variant/20 transition-all active:scale-95">
+          <span class="w-2.5 h-2 rounded-sm bg-[#16A34A]"></span>
+          <span>Green</span>
+        </button>
+        <button class="belt-chip shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-sm font-label-sm shadow-sm border border-outline-variant/20 transition-all active:scale-95">
+          <span class="w-2.5 h-2 rounded-sm bg-[#2563EB]"></span>
+          <span>Blue</span>
+        </button>
+        <button class="belt-chip shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-sm font-label-sm shadow-sm border border-outline-variant/20 transition-all active:scale-95">
+          <span class="w-2.5 h-2 rounded-sm bg-[#854D0E]"></span>
+          <span>Brown</span>
+        </button>
+        <button class="belt-chip shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-on-surface hover:bg-surface-container text-label-sm font-label-sm shadow-sm border border-outline-variant/20 transition-all active:scale-95">
+          <span class="w-2.5 h-2 rounded-sm bg-[#18181B]"></span>
+          <span>Black</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Roster Counter & Sort Metadata -->
+    <div class="flex items-center justify-between px-margin pt-2 pb-1 text-on-surface-variant font-label-sm text-label-sm">
+      <div class="flex items-center gap-1.5">
+        <span class="font-display font-bold text-on-surface text-[13px] tracking-wide uppercase">SRI SANKARA DOJO ROSTER</span>
+        <span class="text-outline">•</span>
+        <span class="font-manrope">Showing 4 of 482</span>
+      </div>
+      <div class="flex items-center gap-1 text-primary cursor-pointer hover:underline select-none">
+        <span class="font-manrope font-semibold">Rank: High to Low</span>
+        <span class="material-symbols-outlined text-[16px]">swap_vert</span>
+      </div>
+    </div>
+
+    <!-- Student Cards List -->
+    <div class="flex flex-col gap-3 px-margin pt-1 pb-16">
+      <!-- CARD 1: Aarav Sharma (EXPANDED) -->
+      <div class="student-card rounded-xl bg-surface-container-lowest shadow-sm border border-outline-variant/20 overflow-hidden transition-all duration-300">
+        <button aria-expanded="true" class="accordion-toggle w-full p-3.5 flex items-center gap-3 text-left select-none">
+          <div class="relative shrink-0">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-white font-display font-bold text-lg shadow-inner">
+              AS
+            </div>
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#16A34A] ring-2 ring-surface-container-lowest" title="Active on Mat"></span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 justify-between">
+              <div class="flex items-center gap-1.5 truncate">
+                <span class="font-display text-[17px] font-bold text-on-surface truncate">Aarav Sharma</span>
+                <span class="text-on-surface-variant font-body-sm text-[12px] shrink-0 font-manrope">16y</span>
+              </div>
+              <span class="font-mono text-[10px] tracking-wide text-outline bg-surface-container-high px-2 py-0.5 rounded-md shrink-0">#DF-2041</span>
+            </div>
+            <div class="flex items-center gap-2 mt-1 flex-wrap">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-[10px] shrink-0 font-manrope font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#854D0E]"></span>
+                1st Kyu (Brown Belt)
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#16A34A]/10 text-[#16A34A] font-label-sm text-[10px] font-bold shrink-0 font-manrope">
+                <span class="material-symbols-outlined text-[12px]">verified</span>
+                96% Attendance (48 sessions)
+              </span>
+            </div>
+          </div>
+          <span class="chevron-icon material-symbols-outlined text-outline text-[22px] transition-transform duration-300 rotate-180 shrink-0 ml-1">
+            keyboard_arrow_up
+          </span>
+        </button>
+        <!-- Card 1: 5 Distinct Sub-sections -->
+        <div class="accordion-content px-3.5 pb-3.5 pt-0 flex flex-col gap-2.5 bg-surface-container-lowest">
+          <div class="h-px w-full bg-surface-variant/70"></div>
+          <div class="grid grid-cols-1 gap-2 font-body-md text-body-md">
+            <!-- 1) Personal & Guardian Details -->
+            <div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col gap-1 border border-border-subtle">
+              <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[13px] uppercase">
+                <span class="material-symbols-outlined text-[17px]">badge</span>
+                <span>1. Personal &amp; Guardian Details</span>
+              </div>
+              <div class="font-manrope text-[12px] text-on-surface flex flex-col gap-0.5 mt-0.5 leading-relaxed">
+                <div><span class="text-outline font-medium">Student:</span> <span class="font-semibold">Aarav Sharma</span> (16y, Male)</div>
+                <div><span class="text-outline font-medium">Guardian:</span> Ramesh Sharma (Father) • <a class="text-primary hover:underline font-semibold" href="tel:+919840122341">+91 98401 22341</a></div>
+                <div><span class="text-outline font-medium">Address:</span> T. Nagar, Chennai, Tamil Nadu - 600017</div>
+              </div>
+            </div>
+
+            <!-- 2) Training & Dojo Details -->
+            <div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col gap-1 border border-border-subtle">
+              <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[13px] uppercase">
+                <span class="material-symbols-outlined text-[17px]">sports_martial_arts</span>
+                <span>2. Training &amp; Dojo Details</span>
+              </div>
+              <div class="font-manrope text-[12px] text-on-surface flex items-center justify-between flex-wrap gap-1 mt-0.5">
+                <span>Managing Dojo: <strong class="text-on-surface">Sri Sankara Dojo (Chennai)</strong></span>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#16A34A]/10 text-[#16A34A] text-[10px] font-bold">Active Cadet</span>
+              </div>
+            </div>
+
+            <!-- 3) Belt Progression -->
+            <div class="p-2.5 rounded-lg bg-primary-fixed/30 flex flex-col gap-1 border border-primary/20">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[13px] uppercase">
+                  <span class="material-symbols-outlined text-[17px]">military_tech</span>
+                  <span>3. Belt Progression</span>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-wider bg-primary text-on-primary px-2 py-0.5 rounded shrink-0 font-manrope">Exam Ready</span>
+              </div>
+              <div class="font-manrope text-[12px] text-on-primary-fixed font-medium">
+                1st Kyu (Brown Belt) • 142 hrs logged • Eligible for Shodan (Black Belt) Exam in Dec 2026
+              </div>
+            </div>
+
+            <!-- 4) Attendance History -->
+            <div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col gap-1 border border-border-subtle">
+              <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[13px] uppercase">
+                <span class="material-symbols-outlined text-[17px]">event_available</span>
+                <span>4. Attendance History</span>
+              </div>
+              <div class="font-manrope text-[12px] flex items-center justify-between mt-0.5">
+                <span class="text-on-surface">96% Attendance (48 sessions completed in 2026)</span>
+                <span class="text-outline text-[11px]">Last: Yesterday</span>
+              </div>
+            </div>
+
+            <!-- 5) Fees & Payment History -->
+            <div class="p-2.5 rounded-lg bg-surface-container-low flex flex-col gap-1 border border-border-subtle">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5 text-primary font-display font-bold text-[13px] uppercase">
+                  <span class="material-symbols-outlined text-[17px]">currency_rupee</span>
+                  <span>5. Fees &amp; Payment History</span>
+                </div>
+                <span class="inline-flex items-center gap-1 font-manrope text-[11px] font-bold text-[#16A34A] bg-[#16A34A]/10 px-2 py-0.5 rounded-full">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>
+                  Paid via UPI
+                </span>
+              </div>
+              <div class="font-manrope text-[12px] text-on-surface mt-0.5">
+                Quarterly Plan: <strong>₹4,500</strong> • Paid through Dec 2026
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions: Edit Student, Log Attendance -->
+          <div class="flex items-center gap-2 pt-1">
+            <a href="../add_edit_student_registration_form/code.html" class="flex-1 h-10 px-3 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-manrope text-[13px] font-bold flex items-center justify-center gap-1.5 transition-colors active:scale-98">
+              <span class="material-symbols-outlined text-[18px]">edit</span>
+              <span>Edit Student</span>
+            </a>
+            <a href="../class_attendance_roster_check_in/code.html" class="flex-1 h-10 px-3 rounded-xl bg-gradient-to-r from-primary to-[#C9212B] text-on-primary font-manrope text-[13px] font-bold shadow-sm flex items-center justify-center gap-1.5 hover:opacity-95 transition-opacity active:scale-98">
+              <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+              <span>Log Attendance</span>
+            </a>
+            <button aria-label="Archive student" class="w-10 h-10 rounded-xl bg-error-container/40 text-error hover:bg-error-container flex items-center justify-center transition-colors active:scale-95 shrink-0">
+              <span class="material-symbols-outlined text-[18px]">archive</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Priya Sundaram (COLLAPSED) -->
+      <div class="student-card rounded-xl bg-surface-container-lowest shadow-sm border border-outline-variant/20 overflow-hidden transition-all duration-300">
+        <button aria-expanded="false" class="accordion-toggle w-full p-3.5 flex items-center gap-3 text-left select-none">
+          <div class="relative shrink-0">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-[#16A34A] to-[#22C55E] flex items-center justify-center text-white font-display font-bold text-lg shadow-inner">
+              PS
+            </div>
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#16A34A] ring-2 ring-surface-container-lowest" title="Active on Mat"></span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 justify-between">
+              <div class="flex items-center gap-1.5 truncate">
+                <span class="font-display text-[17px] font-bold text-on-surface truncate">Priya Sundaram</span>
+                <span class="text-on-surface-variant font-manrope text-[12px] shrink-0">11y</span>
+              </div>
+              <span class="font-mono text-[10px] tracking-wide text-outline bg-surface-container-high px-2 py-0.5 rounded-md shrink-0">#DF-3108</span>
+            </div>
+            <div class="flex items-center gap-2 mt-1 flex-wrap">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-manrope text-[10px] font-semibold shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>
+                3rd Kyu (Green Belt)
+              </span>
+              <span class="inline-flex items-center gap-1 text-on-surface-variant font-manrope text-[10px] shrink-0">
+                <span class="material-symbols-outlined text-[13px] text-outline">location_on</span>
+                Sri Sankara Dojo
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#16A34A]/10 text-[#16A34A] font-manrope text-[10px] font-bold shrink-0">
+                92%
+              </span>
+            </div>
+          </div>
+          <span class="chevron-icon material-symbols-outlined text-outline text-[22px] transition-transform duration-300 shrink-0 ml-1">
+            keyboard_arrow_down
+          </span>
+        </button>
+        <div class="accordion-content hidden px-3.5 pb-3.5 pt-0 flex flex-col gap-2.5 bg-surface-container-lowest">
+          <div class="h-px w-full bg-surface-variant/70"></div>
+          <div class="grid grid-cols-1 gap-2 font-manrope text-[12px]">
+            <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-surface-container-low">
+              <span class="material-symbols-outlined text-primary text-[18px] mt-0.5 shrink-0">supervisor_account</span>
+              <div class="flex flex-col min-w-0">
+                <span class="text-outline uppercase text-[10px] font-semibold">Guardian</span>
+                <span class="text-on-surface font-semibold truncate mt-0.5">Kavita Sundaram (Mother) • +91 94440 88219</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+              <span class="text-outline uppercase text-[10px] font-semibold">Training Cadence</span>
+              <span class="font-semibold text-on-surface">88 hrs logged • Regular Mat</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            <a href="../add_edit_student_registration_form/code.html" class="flex-1 h-10 px-3 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-manrope text-[13px] font-bold flex items-center justify-center gap-1.5 transition-colors">
+              <span class="material-symbols-outlined text-[18px]">edit</span>
+              <span>Edit Student</span>
+            </a>
+            <a href="../class_attendance_roster_check_in/code.html" class="flex-1 h-10 px-3 rounded-xl bg-gradient-to-r from-primary to-[#C9212B] text-on-primary font-manrope text-[13px] font-bold shadow-sm flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+              <span>Log Attendance</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3: Vikram Malhotra (COLLAPSED) -->
+      <div class="student-card rounded-xl bg-surface-container-lowest shadow-sm border border-outline-variant/20 overflow-hidden transition-all duration-300">
+        <button aria-expanded="false" class="accordion-toggle w-full p-3.5 flex items-center gap-3 text-left select-none">
+          <div class="relative shrink-0">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-[#1E293B] to-[#475569] flex items-center justify-center text-white font-display font-bold text-lg shadow-inner">
+              VM
+            </div>
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#16A34A] ring-2 ring-surface-container-lowest" title="Active on Mat"></span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 justify-between">
+              <div class="flex items-center gap-1.5 truncate">
+                <span class="font-display text-[17px] font-bold text-on-surface truncate">Vikram Malhotra</span>
+                <span class="text-on-surface-variant font-manrope text-[12px] shrink-0">24y</span>
+              </div>
+              <span class="font-mono text-[10px] tracking-wide text-outline bg-surface-container-high px-2 py-0.5 rounded-md shrink-0">#DF-1892</span>
+            </div>
+            <div class="flex items-center gap-2 mt-1 flex-wrap">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-inverse-surface text-inverse-on-surface font-manrope text-[10px] font-semibold shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#EAB308]"></span>
+                1st Dan (Black Belt)
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary font-manrope text-[10px] font-bold shrink-0">
+                <span class="material-symbols-outlined text-[11px]">shield_person</span>
+                Assistant Instructor
+              </span>
+            </div>
+          </div>
+          <span class="chevron-icon material-symbols-outlined text-outline text-[22px] transition-transform duration-300 shrink-0 ml-1">
+            keyboard_arrow_down
+          </span>
+        </button>
+        <div class="accordion-content hidden px-3.5 pb-3.5 pt-0 flex flex-col gap-2.5 bg-surface-container-lowest">
+          <div class="h-px w-full bg-surface-variant/70"></div>
+          <div class="grid grid-cols-1 gap-2 font-manrope text-[12px]">
+            <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-surface-container-low">
+              <span class="material-symbols-outlined text-primary text-[18px] mt-0.5 shrink-0">mail</span>
+              <div class="flex flex-col min-w-0">
+                <span class="text-outline uppercase text-[10px] font-semibold">Staff Contact</span>
+                <span class="text-on-surface font-semibold truncate mt-0.5">vikram.m@jfskif-karate.in • +91 98200 44102</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-low">
+              <span class="text-outline uppercase text-[10px] font-semibold">Teaching Assignment</span>
+              <span class="font-semibold text-primary">Mon, Wed, Fri Senior Kumite (Sri Sankara)</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            <a href="../add_edit_student_registration_form/code.html" class="flex-1 h-10 px-3 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-manrope text-[13px] font-bold flex items-center justify-center gap-1.5 transition-colors">
+              <span class="material-symbols-outlined text-[18px]">edit</span>
+              <span>Edit Profile</span>
+            </a>
+            <a href="../class_attendance_roster_check_in/code.html" class="flex-1 h-10 px-3 rounded-xl bg-gradient-to-r from-primary to-[#C9212B] text-on-primary font-manrope text-[13px] font-bold shadow-sm flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+              <span>Log Attendance</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4: Ananya Iyer (COLLAPSED - Fee Pending Warning) -->
+      <div class="student-card rounded-xl bg-surface-container-lowest shadow-sm border border-outline-variant/20 overflow-hidden transition-all duration-300">
+        <button aria-expanded="false" class="accordion-toggle w-full p-3.5 flex items-center gap-3 text-left select-none">
+          <div class="relative shrink-0">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-[#EAB308] to-[#FACC15] flex items-center justify-center text-white font-display font-bold text-lg shadow-inner">
+              AI
+            </div>
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#EAB308] ring-2 ring-surface-container-lowest" title="Fee Pending"></span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 justify-between">
+              <div class="flex items-center gap-1.5 truncate">
+                <span class="font-display text-[17px] font-bold text-on-surface truncate">Ananya Iyer</span>
+                <span class="text-on-surface-variant font-manrope text-[12px] shrink-0">8y</span>
+              </div>
+              <span class="font-mono text-[10px] tracking-wide text-outline bg-surface-container-high px-2 py-0.5 rounded-md shrink-0">#DF-4022</span>
+            </div>
+            <div class="flex items-center gap-2 mt-1 flex-wrap">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-manrope text-[10px] font-semibold shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#EAB308]"></span>
+                8th Kyu (Yellow)
+              </span>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EAB308]/15 text-[#B45309] font-manrope text-[10px] font-bold shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#EAB308] animate-pulse"></span>
+                Fee Pending ₹2,200
+              </span>
+            </div>
+          </div>
+          <span class="chevron-icon material-symbols-outlined text-outline text-[22px] transition-transform duration-300 shrink-0 ml-1">
+            keyboard_arrow_down
+          </span>
+        </button>
+        <div class="accordion-content hidden px-3.5 pb-3.5 pt-0 flex flex-col gap-2.5 bg-surface-container-lowest">
+          <div class="h-px w-full bg-surface-variant/70"></div>
+          <div class="grid grid-cols-1 gap-2 font-manrope text-[12px]">
+            <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-surface-container-low">
+              <span class="material-symbols-outlined text-primary text-[18px] mt-0.5 shrink-0">supervisor_account</span>
+              <div class="flex flex-col min-w-0">
+                <span class="text-outline uppercase text-[10px] font-semibold">Guardian</span>
+                <span class="text-on-surface font-semibold truncate mt-0.5">Suresh Iyer (Father) • +91 98402 11980</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg bg-[#EAB308]/10 text-on-surface">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[#B45309] text-[18px]">warning</span>
+                <span class="text-[#B45309] font-semibold uppercase text-[11px]">Overdue: Monthly Dues (Nov 2026)</span>
+              </div>
+              <span class="font-bold text-on-surface text-[13px]">₹2,200</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            <button class="flex-1 h-10 px-3 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-manrope text-[13px] font-bold flex items-center justify-center gap-1.5 transition-colors">
+              <span class="material-symbols-outlined text-[18px]">sms</span>
+              <span>Remind Parent</span>
+            </button>
+            <a href="../stats_financial_analytics/code.html" class="flex-1 h-10 px-3 rounded-xl bg-gradient-to-r from-primary to-[#C9212B] text-on-primary font-manrope text-[13px] font-bold shadow-sm flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">credit_card</span>
+              <span>Collect Fee</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Floating Action Button (Elevated Above Nav Shell, links to Add Student Form) -->
+    <div class="fixed right-4 bottom-24 z-40">
+      <a href="../add_edit_student_registration_form/code.html" aria-label="Add Student to Dojo" class="group flex items-center gap-2 pl-3.5 pr-4 py-3 bg-gradient-to-r from-[#971923] to-[#C9212B] text-on-primary rounded-full shadow-[0_8px_24px_rgba(163,0,24,0.4)] hover:shadow-[0_10px_28px_rgba(163,0,24,0.5)] active:scale-95 transition-all duration-200" id="addStudentFab">
+        <span class="material-symbols-outlined text-[24px] transition-transform duration-200 group-hover:rotate-90">add</span>
+        <span class="font-display text-[14px] font-bold tracking-wide uppercase">Add Student</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Dynamic Accordion Expansion & Collapse
+    document.querySelectorAll('.accordion-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.student-card');
+        const content = card.querySelector('.accordion-content');
+        const chevron = button.querySelector('.chevron-icon');
+        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          content.classList.add('hidden');
+          button.setAttribute('aria-expanded', 'false');
+          chevron.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          button.setAttribute('aria-expanded', 'true');
+          chevron.classList.add('rotate-180');
+        }
+      });
+    });
+
+    // Segmented Pill Controls Filter State
+    const segmentButtons = document.querySelectorAll('.status-seg');
+    segmentButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        segmentButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary', 'font-bold', 'shadow-sm');
+          b.classList.add('text-on-surface-variant', 'font-medium');
+        });
+        btn.classList.add('bg-primary', 'text-on-primary', 'font-bold', 'shadow-sm');
+        btn.classList.remove('text-on-surface-variant', 'font-medium');
+      });
+    });
+
+    // Belt Chips Selection State
+    const beltChips = document.querySelectorAll('.belt-chip');
+    beltChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        beltChips.forEach(c => {
+          c.classList.remove('bg-primary', 'text-on-primary');
+          c.classList.add('bg-surface-container-lowest', 'text-on-surface');
+        });
+        chip.classList.add('bg-primary', 'text-on-primary');
+        chip.classList.remove('bg-surface-container-lowest', 'text-on-surface');
+      });
+    });
+
+    // Search Clear Interaction
+    const searchInput = document.getElementById('studentSearchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
+
+    if (searchInput && clearBtn) {
+      searchInput.addEventListener('input', (e) => {
+        if (e.target.value.length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        clearBtn.classList.add('hidden');
+        searchInput.focus();
+      });
+    }
+  </script>
+</main>
+
+<!-- COMPONENT 8: BOTTOM NAVIGATION (5 TABS, CENTER RAISED PUNCH EMBLEM WITH STRICTLY NO TEXT LABEL) -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-semibold">
+  <div class="h-20 px-space-xs flex items-center justify-around relative">
+    <a aria-current="page" class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-primary font-bold transition-colors" data-path="students" href="../students_directory/code.html">
+      <span class="material-symbols-outlined text-[24px]">sports_martial_arts</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">STUDENTS</span>
+    </a>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="schedule" href="../schedule_monthly_calendar/code.html">
+      <span class="material-symbols-outlined text-[24px]">calendar_today</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">SCHEDULE</span>
+    </a>
+    <!-- Center Raised Home Button: 62-66dp, white karate emblem, red circular gradient, STRICTLY NO TEXT LABEL -->
+    <div class="relative flex flex-col items-center justify-center px-1">
+      <a aria-label="Home Dashboard" class="w-[62px] h-[62px] -mt-5 rounded-full bg-gradient-to-br from-[#971923] to-[#C9212B] flex items-center justify-center shadow-[0_6px_18px_rgba(163,0,24,0.40)] active:scale-95 transition-transform duration-150 shrink-0" data-path="home" href="../dojoflow_master_dashboard/code.html">
+        <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Karate Punching Emblem">
+          <circle cx="36" cy="22" r="11" fill="#FFFFFF"/>
+          <path d="M28 20 C16 17 12 24 15 28 C22 23 30 24 30 24 Z" fill="#FFFFFF"/>
+          <path d="M36 32 L52 40 L46 62 L30 62 L24 38 Z" fill="#FFFFFF"/>
+          <path d="M50 40 L72 39 L86 39" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="86" cy="39" r="7.5" fill="#FFFFFF"/>
+          <path d="M26 40 L18 48 L26 54" stroke="#FFFFFF" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M28 62 L48 62" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+          <path d="M30 62 L18 86 L28 86 L38 64 Z" fill="#FFFFFF"/>
+          <path d="M44 62 L60 86 L74 86 L50 64 Z" fill="#FFFFFF"/>
+        </svg>
+      </a>
+    </div>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="events" href="../events_tournaments_directory/code.html">
+      <span class="material-symbols-outlined text-[24px]">emoji_events</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">EVENTS</span>
+    </a>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="stats" href="../stats_financial_analytics/code.html">
+      <span class="material-symbols-outlined text-[24px]">analytics</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">STATS</span>
+    </a>
+  </div>
+</nav>
+
+</body></html>

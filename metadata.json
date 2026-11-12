@@ -1,0 +1,6 @@
+{
+  "name": "DojoFLOW",
+  "description": "Multi-tenant martial arts dojo management ecosystem for academies and federations",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,320 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidTimestamp(ts) {
+      return ts is timestamp && ts <= request.time;
+    }
+
+    function isValidOptionalTimestamp(data, key) {
+      return !(key in data) || data[key] == null || isValidTimestamp(data[key]);
+    }
+
+    // 1. User Profiles
+    function isValidUserProfile(data) {
+      return data.uid is string && data.uid.size() > 0 && data.uid.size() <= 128 &&
+             data.email is string && data.email.size() <= 200 &&
+             data.role in ['founder', 'shihan', 'sensei', 'student', 'parent'] &&
+             (!('displayName' in data) || data.displayName == null || (data.displayName is string && data.displayName.size() <= 100)) &&
+             (!('orgId' in data) || data.orgId == null || (data.orgId is string && data.orgId.size() <= 128)) &&
+             (!('assignedDojoIds' in data) || data.assignedDojoIds == null || (data.assignedDojoIds is list && data.assignedDojoIds.size() <= 50)) &&
+             (!('onboardingStatus' in data) || data.onboardingStatus == null || (data.onboardingStatus in ['not_started', 'in_progress', 'completed'])) &&
+             (!('onboardingStep' in data) || data.onboardingStep == null || data.onboardingStep is number) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn() && request.auth.uid == userId;
+      allow list: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow create: if isSignedIn() && request.auth.uid == userId && incoming().uid == request.auth.uid && isValidUserProfile(incoming());
+      allow update: if isSignedIn() && request.auth.uid == userId && incoming().uid == userId && incoming().createdAt == existing().createdAt && isValidUserProfile(incoming());
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // 2. Organisations
+    function isValidOrganisation(data) {
+      return data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+             data.martialArtStyle is string && data.martialArtStyle.size() > 0 && data.martialArtStyle.size() <= 100 &&
+             (!('shortName' in data) || data.shortName == null || (data.shortName is string && data.shortName.size() <= 50)) &&
+             (!('country' in data) || data.country == null || (data.country is string && data.country.size() <= 100)) &&
+             (!('language' in data) || data.language == null || (data.language is string && data.language.size() <= 50)) &&
+             (!('contactEmail' in data) || data.contactEmail == null || (data.contactEmail is string && data.contactEmail.size() <= 200)) &&
+             (!('contactPhone' in data) || data.contactPhone == null || (data.contactPhone is string && data.contactPhone.size() <= 50)) &&
+             (!('topSenseiName' in data) || data.topSenseiName == null || (data.topSenseiName is string && data.topSenseiName.size() <= 100)) &&
+             (!('address' in data) || data.address == null || (data.address is string && data.address.size() <= 300)) &&
+             (!('dateOfEstablishment' in data) || data.dateOfEstablishment == null || (data.dateOfEstablishment is string && data.dateOfEstablishment.size() <= 50)) &&
+             (!('logoUrl' in data) || data.logoUrl == null || (data.logoUrl is string && data.logoUrl.size() <= 1000)) &&
+             (!('affiliation' in data) || data.affiliation == null || (data.affiliation is string && data.affiliation.size() <= 200)) &&
+             (!('announcementGreeting' in data) || data.announcementGreeting == null || (data.announcementGreeting is string && data.announcementGreeting.size() <= 200)) &&
+             (!('announcementClosing' in data) || data.announcementClosing == null || (data.announcementClosing is string && data.announcementClosing.size() <= 200)) &&
+             (!('defaultUniform' in data) || data.defaultUniform == null || (data.defaultUniform is string && data.defaultUniform.size() <= 200)) &&
+             (!('defaultItemsToBring' in data) || data.defaultItemsToBring == null || (data.defaultItemsToBring is string && data.defaultItemsToBring.size() <= 200)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /organisations/{orgId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidOrganisation(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidOrganisation(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 3. Dojos
+    function isValidDojo(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 150 &&
+             data.status in ['active', 'inactive'] &&
+             (!('shortName' in data) || data.shortName == null || (data.shortName is string && data.shortName.size() <= 50)) &&
+             (!('address' in data) || data.address == null || (data.address is string && data.address.size() <= 300)) &&
+             (!('locality' in data) || data.locality == null || (data.locality is string && data.locality.size() <= 100)) &&
+             (!('city' in data) || data.city == null || (data.city is string && data.city.size() <= 100)) &&
+             (!('state' in data) || data.state == null || (data.state is string && data.state.size() <= 100)) &&
+             (!('country' in data) || data.country == null || (data.country is string && data.country.size() <= 100)) &&
+             (!('postalCode' in data) || data.postalCode == null || (data.postalCode is string && data.postalCode.size() <= 30)) &&
+             (!('contactNumber' in data) || data.contactNumber == null || (data.contactNumber is string && data.contactNumber.size() <= 50)) &&
+             (!('email' in data) || data.email == null || (data.email is string && data.email.size() <= 200)) &&
+             (!('assignedShihanUids' in data) || data.assignedShihanUids == null || (data.assignedShihanUids is list && data.assignedShihanUids.size() <= 50)) &&
+             (!('openingDate' in data) || data.openingDate == null || (data.openingDate is string && data.openingDate.size() <= 50)) &&
+             (!('monthlyFee' in data) || data.monthlyFee == null || data.monthlyFee is number) &&
+             (!('quarterlyFee' in data) || data.quarterlyFee == null || data.quarterlyFee is number) &&
+             (!('halfYearlyFee' in data) || data.halfYearlyFee == null || data.halfYearlyFee is number) &&
+             (!('annuallyFee' in data) || data.annuallyFee == null || data.annuallyFee is number) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /dojos/{dojoId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidDojo(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidDojo(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 4. Students
+    function isValidStudent(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.dojoId is string && data.dojoId.size() > 0 && data.dojoId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.fullName is string && data.fullName.size() > 0 && data.fullName.size() <= 150 &&
+             data.currentBelt is string && data.currentBelt.size() > 0 && data.currentBelt.size() <= 50 &&
+             data.status in ['active', 'inactive'] &&
+             (!('gender' in data) || data.gender == null || (data.gender is string && data.gender.size() <= 50)) &&
+             (!('dateOfBirth' in data) || data.dateOfBirth == null || (data.dateOfBirth is string && data.dateOfBirth.size() <= 50)) &&
+             (!('age' in data) || data.age == null || data.age is number) &&
+             (!('photoUrl' in data) || data.photoUrl == null || (data.photoUrl is string && data.photoUrl.size() <= 1000)) &&
+             (!('fatherName' in data) || data.fatherName == null || (data.fatherName is string && data.fatherName.size() <= 150)) &&
+             (!('motherName' in data) || data.motherName == null || (data.motherName is string && data.motherName.size() <= 150)) &&
+             (!('parentGuardianName' in data) || data.parentGuardianName == null || (data.parentGuardianName is string && data.parentGuardianName.size() <= 150)) &&
+             (!('parentGuardianMobile' in data) || data.parentGuardianMobile == null || (data.parentGuardianMobile is string && data.parentGuardianMobile.size() <= 50)) &&
+             (!('email' in data) || data.email == null || (data.email is string && data.email.size() <= 200)) &&
+             (!('address' in data) || data.address == null || (data.address is string && data.address.size() <= 300)) &&
+             (!('locality' in data) || data.locality == null || (data.locality is string && data.locality.size() <= 100)) &&
+             (!('city' in data) || data.city == null || (data.city is string && data.city.size() <= 100)) &&
+             (!('state' in data) || data.state == null || (data.state is string && data.state.size() <= 100)) &&
+             (!('country' in data) || data.country == null || (data.country is string && data.country.size() <= 100)) &&
+             (!('postalCode' in data) || data.postalCode == null || (data.postalCode is string && data.postalCode.size() <= 30)) &&
+             (!('admissionDate' in data) || data.admissionDate == null || (data.admissionDate is string && data.admissionDate.size() <= 50)) &&
+             (!('trainingType' in data) || data.trainingType == null || (data.trainingType is string && data.trainingType.size() <= 50)) &&
+             (!('trainingMode' in data) || data.trainingMode == null || (data.trainingMode is string && data.trainingMode.size() <= 50)) &&
+             (!('managingDojoId' in data) || data.managingDojoId == null || (data.managingDojoId is string && data.managingDojoId.size() <= 128)) &&
+             (!('trainingAddress' in data) || data.trainingAddress == null || (data.trainingAddress is string && data.trainingAddress.size() <= 300)) &&
+             (!('trainingLocation' in data) || data.trainingLocation == null || (data.trainingLocation is string && data.trainingLocation.size() <= 300)) &&
+             (!('onlineMeetingInfo' in data) || data.onlineMeetingInfo == null || (data.onlineMeetingInfo is string && data.onlineMeetingInfo.size() <= 300)) &&
+             (!('studentDesignation' in data) || data.studentDesignation == null || (data.studentDesignation is string && data.studentDesignation.size() <= 50)) &&
+             (!('emergencyContact' in data) || data.emergencyContact == null || (data.emergencyContact is string && data.emergencyContact.size() <= 100)) &&
+             (!('notes' in data) || data.notes == null || (data.notes is string && data.notes.size() <= 1000)) &&
+             (!('feePlan' in data) || data.feePlan == null || (data.feePlan is string && data.feePlan.size() <= 50)) &&
+             (!('leavingDate' in data) || data.leavingDate == null || (data.leavingDate is string && data.leavingDate.size() <= 50)) &&
+             (!('leavingReason' in data) || data.leavingReason == null || (data.leavingReason is string && data.leavingReason.size() <= 500)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /students/{studentId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidStudent(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidStudent(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 5. Attendance Sessions
+    function isValidAttendanceSession(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.dojoId is string && data.dojoId.size() > 0 && data.dojoId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.date is string && data.date.size() > 0 && data.date.size() <= 50 &&
+             (!('classId' in data) || data.classId == null || (data.classId is string && data.classId.size() <= 128)) &&
+             (!('title' in data) || data.title == null || (data.title is string && data.title.size() <= 150)) &&
+             (!('instructorName' in data) || data.instructorName == null || (data.instructorName is string && data.instructorName.size() <= 100)) &&
+             (!('presentStudentIds' in data) || data.presentStudentIds == null || (data.presentStudentIds is list && data.presentStudentIds.size() <= 500)) &&
+             (!('totalStudents' in data) || data.totalStudents == null || data.totalStudents is number) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /attendance_sessions/{sessionId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidAttendanceSession(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidAttendanceSession(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 6. Class Schedules
+    function isValidClassSchedule(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.dojoId is string && data.dojoId.size() > 0 && data.dojoId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
+             data.startTime is string && data.startTime.size() > 0 && data.startTime.size() <= 30 &&
+             data.endTime is string && data.endTime.size() > 0 && data.endTime.size() <= 30 &&
+             (!('instructorUid' in data) || data.instructorUid == null || (data.instructorUid is string && data.instructorUid.size() <= 128)) &&
+             (!('instructorName' in data) || data.instructorName == null || (data.instructorName is string && data.instructorName.size() <= 100)) &&
+             (!('description' in data) || data.description == null || (data.description is string && data.description.size() <= 500)) &&
+             (!('startDate' in data) || data.startDate == null || (data.startDate is string && data.startDate.size() <= 50)) &&
+             (!('daysOfWeek' in data) || data.daysOfWeek == null || (data.daysOfWeek is list && data.daysOfWeek.size() <= 7)) &&
+             (!('recurrenceType' in data) || data.recurrenceType == null || (data.recurrenceType is string && data.recurrenceType.size() <= 50)) &&
+             (!('instructions' in data) || data.instructions == null || (data.instructions is string && data.instructions.size() <= 1000)) &&
+             (!('entriesJson' in data) || data.entriesJson == null || (data.entriesJson is string && data.entriesJson.size() <= 5000)) &&
+             (!('uniform' in data) || data.uniform == null || (data.uniform is string && data.uniform.size() <= 300)) &&
+             (!('itemsToBring' in data) || data.itemsToBring == null || (data.itemsToBring is string && data.itemsToBring.size() <= 300)) &&
+             (!('specialNotice' in data) || data.specialNotice == null || (data.specialNotice is string && data.specialNotice.size() <= 500)) &&
+             (!('announcementText' in data) || data.announcementText == null || (data.announcementText is string && data.announcementText.size() <= 5000)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /class_schedules/{scheduleId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidClassSchedule(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidClassSchedule(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 7. Payments
+    function isValidPayment(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.dojoId is string && data.dojoId.size() > 0 && data.dojoId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.studentId is string && data.studentId.size() > 0 && data.studentId.size() <= 128 &&
+             data.amount is number && data.amount >= 0 &&
+             data.paymentMethod is string && data.paymentMethod.size() > 0 && data.paymentMethod.size() <= 50 &&
+             (!('studentName' in data) || data.studentName == null || (data.studentName is string && data.studentName.size() <= 150)) &&
+             (!('feePeriod' in data) || data.feePeriod == null || (data.feePeriod is string && data.feePeriod.size() <= 50)) &&
+             (!('receiptNumber' in data) || data.receiptNumber == null || (data.receiptNumber is string && data.receiptNumber.size() <= 100)) &&
+             (!('paymentDate' in data) || data.paymentDate == null || (data.paymentDate is string && data.paymentDate.size() <= 50)) &&
+             (!('notes' in data) || data.notes == null || (data.notes is string && data.notes.size() <= 500)) &&
+             (!('recordedByUid' in data) || data.recordedByUid == null || (data.recordedByUid is string && data.recordedByUid.size() <= 128)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /payments/{paymentId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidPayment(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidPayment(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 8. Belt Promotions
+    function isValidBeltPromotion(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.dojoId is string && data.dojoId.size() > 0 && data.dojoId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.studentId is string && data.studentId.size() > 0 && data.studentId.size() <= 128 &&
+             data.newBelt is string && data.newBelt.size() > 0 && data.newBelt.size() <= 50 &&
+             (!('studentName' in data) || data.studentName == null || (data.studentName is string && data.studentName.size() <= 150)) &&
+             (!('previousBelt' in data) || data.previousBelt == null || (data.previousBelt is string && data.previousBelt.size() <= 50)) &&
+             (!('promotionDate' in data) || data.promotionDate == null || (data.promotionDate is string && data.promotionDate.size() <= 50)) &&
+             (!('examinerName' in data) || data.examinerName == null || (data.examinerName is string && data.examinerName.size() <= 100)) &&
+             (!('comments' in data) || data.comments == null || (data.comments is string && data.comments.size() <= 500)) &&
+             (!('certificateNumber' in data) || data.certificateNumber == null || (data.certificateNumber is string && data.certificateNumber.size() <= 100)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /belt_promotions/{promotionId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidBeltPromotion(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidBeltPromotion(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 9. Tournaments
+    function isValidTournament(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 150 &&
+             data.date is string && data.date.size() > 0 && data.date.size() <= 50 &&
+             data.venue is string && data.venue.size() > 0 && data.venue.size() <= 200 &&
+             data.status in ['upcoming', 'completed'] &&
+             (!('organizer' in data) || data.organizer == null || (data.organizer is string && data.organizer.size() <= 150)) &&
+             (!('registrationDeadline' in data) || data.registrationDeadline == null || (data.registrationDeadline is string && data.registrationDeadline.size() <= 50)) &&
+             (!('description' in data) || data.description == null || (data.description is string && data.description.size() <= 1000)) &&
+             (!('posterUrl' in data) || data.posterUrl == null || (data.posterUrl is string && data.posterUrl.size() <= 1000)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /tournaments/{tournamentId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidTournament(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidTournament(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // 10. Announcements
+    function isValidAnnouncement(data) {
+      return data.orgId is string && data.orgId.size() > 0 && data.orgId.size() <= 128 &&
+             data.dojoId is string && data.dojoId.size() > 0 && data.dojoId.size() <= 128 &&
+             data.ownerUid is string && data.ownerUid == request.auth.uid &&
+             data.message is string && data.message.size() > 0 && data.message.size() <= 5000 &&
+             (!('scheduleId' in data) || data.scheduleId == null || (data.scheduleId is string && data.scheduleId.size() <= 128)) &&
+             (!('title' in data) || data.title == null || (data.title is string && data.title.size() <= 200)) &&
+             (!('publishedBy' in data) || data.publishedBy == null || (data.publishedBy is string && data.publishedBy.size() <= 100)) &&
+             (!('targetAudience' in data) || data.targetAudience == null || (data.targetAudience is string && data.targetAudience.size() <= 100)) &&
+             isValidTimestamp(data.createdAt) &&
+             isValidOptionalTimestamp(data, 'updatedAt');
+    }
+
+    match /announcements/{announcementId} {
+      allow get: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerUid == request.auth.uid && isValidAnnouncement(incoming());
+      allow update: if isSignedIn() && resource.data.ownerUid == request.auth.uid && incoming().ownerUid == resource.data.ownerUid && incoming().createdAt == existing().createdAt && isValidAnnouncement(incoming());
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+  }
+}

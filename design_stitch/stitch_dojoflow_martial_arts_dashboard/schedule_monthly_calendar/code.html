@@ -1,0 +1,372 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><title>DojoFLOW — Schedule Calendar</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#faf9ff;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#e4bdba", "primary": "#a30018", "on-tertiary": "#ffffff", "on-error": "#ffffff", "inverse-surface": "#2b3139", "on-tertiary-fixed": "#181b23", "error": "#ba1a1a", "primary-fixed-dim": "#ffb3ae", "surface-bright": "#f8f9ff", "on-primary-fixed": "#410004", "on-secondary-container": "#69000f", "tertiary-container": "#656771", "surface-container-high": "#e3e8f4", "inverse-primary": "#ffb3ae", "primary-fixed": "#ffdad7", "tertiary-fixed-dim": "#c4c6d1", "on-secondary": "#ffffff", "on-secondary-fixed": "#410006", "on-secondary-fixed-variant": "#8e111e", "surface-tint": "#bb1423", "secondary-container": "#fe6666", "surface-dim": "#d5dae5", "tertiary-fixed": "#e0e2ed", "on-surface": "#161c24", "surface": "#f8f9ff", "secondary-fixed": "#ffdad8", "surface-container": "#e9eef9", "secondary": "#b02c32", "surface-variant": "#dde3ee", "on-primary": "#ffffff", "secondary-fixed-dim": "#ffb3b0", "tertiary": "#4c4f58", "surface-container-highest": "#dde3ee", "on-background": "#161c24", "on-tertiary-container": "#e5e6f2", "error-container": "#ffdad6", "inverse-on-surface": "#ebf1fc", "on-primary-fixed-variant": "#930015", "surface-container-low": "#eef4ff", "on-primary-container": "#ffe0de", "primary-container": "#c9212b", "background": "#f8f9ff", "on-surface-variant": "#5b403e", "on-error-container": "#93000a", "surface-container-lowest": "#ffffff", "on-tertiary-fixed-variant": "#44474f", "outline": "#906f6d" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "gutter": "1rem", "margin-tablet": "2rem", "gutter-tablet": "1.25rem", "space-xl": "2rem", "space-2xs": "0.25rem", "gutter-desktop": "1.5rem", "margin": "1rem", "space-2xl": "3rem", "space-sm": "0.75rem", "space-xs": "0.5rem", "space-md": "1rem", "margin-desktop": "2.5rem" }, "fontFamily": { "display": ["Rajdhani", "sans-serif"], "headline-lg": ["Rajdhani", "sans-serif"], "headline-lg-mobile": ["Rajdhani", "sans-serif"], "headline-md": ["Rajdhani", "sans-serif"], "headline-sm": ["Rajdhani", "sans-serif"], "metric-stat": ["Manrope", "sans-serif"], "body-lg": ["Manrope", "sans-serif"], "body-md": ["Manrope", "sans-serif"], "body-sm": ["Manrope", "sans-serif"], "label-md": ["Manrope", "sans-serif"], "label-sm": ["Manrope", "sans-serif"], "rajdhani": ["Rajdhani", "sans-serif"], "manrope": ["Manrope", "sans-serif"] }, "fontSize": { "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "0.01em", "fontWeight": "700" }], "body-lg": ["15px", { "lineHeight": "22px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "metric-stat": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "body-md": ["13px", { "lineHeight": "19px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "0.01em", "fontWeight": "700" }], "display": ["40px", { "lineHeight": "46px", "letterSpacing": "-0.01em", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<!-- COMPONENT 1: PERSISTENT FEDERATION HEADER -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-gradient-to-r from-[#971923] to-[#C9212B] shadow-[0_4px_16px_rgba(163,0,24,0.20)]">
+  <div class="h-16 px-4 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <!-- Self-Contained JFSKIF Crest SVG -->
+      <svg class="h-9 w-9 shrink-0 drop-shadow-sm" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="JFSKIF Federation Crest">
+        <circle cx="50" cy="50" r="47" stroke="#FFE082" stroke-width="2.5" fill="#971923"/>
+        <circle cx="50" cy="50" r="42" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <circle cx="50" cy="50" r="32" fill="#C9212B"/>
+        <circle cx="50" cy="50" r="30.5" stroke="#FFE082" stroke-width="0.8"/>
+        <circle cx="41" cy="33" r="5" fill="#FFFFFF"/>
+        <path d="M36 32 C29 30 27 34 29 36 C33 34 37 34 37 34 Z" fill="#FFFFFF"/>
+        <path d="M41 38 L50 43 L46 56 L36 56 L34 42 Z" fill="#FFFFFF"/>
+        <path d="M49 43 L63 42 L73 42" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="73" cy="42" r="3.2" fill="#FFFFFF"/>
+        <path d="M34 43 L29 48 L34 52" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M35 56 L47 56" stroke="#FFE082" stroke-width="2" stroke-linecap="round"/>
+        <path d="M37 56 L31 70 L37 70 L43 58 Z" fill="#FFFFFF"/>
+        <path d="M45 56 L53 70 L61 70 L49 58 Z" fill="#FFFFFF"/>
+        <text x="50" y="90" text-anchor="middle" fill="#FFE082" font-size="8" font-family="'Rajdhani', sans-serif" font-weight="700" letter-spacing="1.2">JFSKIF</text>
+      </svg>
+      <div class="flex flex-col min-w-0">
+        <span class="font-display text-[13px] sm:text-[14px] font-bold text-white tracking-wide truncate leading-tight uppercase">JAPAN FUNAKOSHI SHOTOKAN KARATE INDIA FEDERATION (JFSKIF)</span>
+        <span class="font-manrope text-[10px] font-semibold text-white/90 tracking-wider leading-none mt-0.5">Powered by DojoFLOW</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <a aria-label="Settings" class="w-10 h-10 flex items-center justify-center text-white/90 hover:text-white transition-colors" data-path="settings" href="../profile_dojo_settings/code.html">
+        <span class="material-symbols-outlined text-[22px]">settings</span>
+      </a>
+      <div class="p-0.5 rounded-full ring-2 ring-white/30">
+        <div class="w-8 h-8 rounded-full bg-[#FFE0DE] text-primary flex items-center justify-center font-display font-bold text-sm">RK</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 w-full bg-surface pt-16 pb-28">
+  <div class="flex flex-col w-full">
+    <!-- Static Active Dojo Context Banner (No branch dropdown/switcher) -->
+    <div class="px-margin pt-3 pb-1 flex items-center justify-between">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high/80 text-on-surface border border-outline-variant/30 text-[11px] font-manrope font-semibold">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        <span class="text-on-surface-variant">Active Branch:</span>
+        <span class="font-bold text-primary">Sri Sankara Dojo (Chennai)</span>
+      </div>
+      <span class="text-on-surface-variant font-manrope text-[11px] font-medium">8 Sessions Daily</span>
+    </div>
+
+    <div class="px-margin pt-2 pb-space-lg flex flex-col gap-3.5">
+      <!-- Month Navigation & Controls (2026 Consistent) -->
+      <div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border border-outline-variant/20 flex flex-col gap-2.5">
+        <div class="flex items-center justify-between">
+          <button aria-label="Previous Month" class="w-9 h-9 rounded-lg flex items-center justify-center bg-surface-container text-on-surface hover:bg-surface-container-high active:scale-95 transition-all" id="prev-month-btn">
+            <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+          </button>
+          <div class="flex items-center gap-1 cursor-pointer group">
+            <span class="font-display text-[18px] text-on-surface tracking-wide font-bold">November 2026</span>
+            <span class="material-symbols-outlined text-[18px] text-tertiary transition-transform group-hover:translate-y-0.5">expand_more</span>
+          </div>
+          <button aria-label="Next Month" class="w-9 h-9 rounded-lg flex items-center justify-center bg-surface-container text-on-surface hover:bg-surface-container-high active:scale-95 transition-all" id="next-month-btn">
+            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+          </button>
+        </div>
+
+        <!-- Quick Program / Category Filters -->
+        <div aria-label="Program selection" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5" role="tablist">
+          <button class="tatami-filter px-3 py-1 rounded-full bg-primary text-on-primary font-manrope text-[11px] font-bold uppercase tracking-wide shadow-sm shrink-0 whitespace-nowrap active:scale-95 transition-all" data-mat="all">All Classes</button>
+          <button class="tatami-filter px-3 py-1 rounded-full bg-surface-container text-tertiary font-manrope text-[11px] font-semibold uppercase tracking-wide hover:bg-surface-container-high hover:text-on-surface shrink-0 whitespace-nowrap active:scale-95 transition-all" data-mat="regular">Regular Classes</button>
+          <button class="tatami-filter px-3 py-1 rounded-full bg-surface-container text-tertiary font-manrope text-[11px] font-semibold uppercase tracking-wide hover:bg-surface-container-high hover:text-on-surface shrink-0 whitespace-nowrap active:scale-95 transition-all" data-mat="special">Special Training</button>
+          <button class="tatami-filter px-3 py-1 rounded-full bg-surface-container text-tertiary font-manrope text-[11px] font-semibold uppercase tracking-wide hover:bg-surface-container-high hover:text-on-surface shrink-0 whitespace-nowrap active:scale-95 transition-all" data-mat="exam">Belt Examinations</button>
+          <button class="tatami-filter px-3 py-1 rounded-full bg-surface-container text-tertiary font-manrope text-[11px] font-semibold uppercase tracking-wide hover:bg-surface-container-high hover:text-on-surface shrink-0 whitespace-nowrap active:scale-95 transition-all" data-mat="private">Private / Online</button>
+        </div>
+      </div>
+
+      <!-- Monthly Calendar Interactive Card (November 2026: Nov 1 is Sunday) -->
+      <div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border border-outline-variant/20 flex flex-col gap-1.5">
+        <!-- 7 Weekday Headers -->
+        <div class="grid grid-cols-7 text-center font-manrope text-[11px] font-bold text-tertiary tracking-wider py-1">
+          <span>MON</span>
+          <span>TUE</span>
+          <span>WED</span>
+          <span>THU</span>
+          <span>FRI</span>
+          <span>SAT</span>
+          <span>SUN</span>
+        </div>
+        <!-- Calendar Days Grid (Nov 2026: Day 1 is Sunday, so Mon Oct 26-31 are trailing) -->
+        <div class="grid grid-cols-7 gap-y-1 text-center" id="calendar-days">
+          <div class="h-10 flex flex-col items-center justify-center opacity-30 cursor-not-allowed"><span class="font-manrope text-[12px] text-tertiary">26</span></div>
+          <div class="h-10 flex flex-col items-center justify-center opacity-30 cursor-not-allowed"><span class="font-manrope text-[12px] text-tertiary">27</span></div>
+          <div class="h-10 flex flex-col items-center justify-center opacity-30 cursor-not-allowed"><span class="font-manrope text-[12px] text-tertiary">28</span></div>
+          <div class="h-10 flex flex-col items-center justify-center opacity-30 cursor-not-allowed"><span class="font-manrope text-[12px] text-tertiary">29</span></div>
+          <div class="h-10 flex flex-col items-center justify-center opacity-30 cursor-not-allowed"><span class="font-manrope text-[12px] text-tertiary">30</span></div>
+          <div class="h-10 flex flex-col items-center justify-center opacity-30 cursor-not-allowed"><span class="font-manrope text-[12px] text-tertiary">31</span></div>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">01</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#E9A52A]"></span></div></button>
+          
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">02</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">03</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">04</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">05</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">06</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">07</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#E9A52A]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">08</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#a30018]"></span></div></button>
+          
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">09</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">10</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">11</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">12</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">13</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">14</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#E9A52A]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">15</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#d5dae5]"></span></div></button>
+          
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">16</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">17</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">18</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">19</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">20</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">21</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#E9A52A]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">22</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#d5dae5]"></span></div></button>
+
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">23</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <!-- Selected Day: Tuesday 24 Nov 2026 -->
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg active:scale-95 transition-transform" id="selected-day-btn">
+            <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center shadow-md">
+              <span class="font-manrope text-[12px] text-on-primary font-bold">24</span>
+            </div>
+            <div class="flex items-center gap-0.5 mt-0.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#E9A52A]"></span>
+            </div>
+          </button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">25</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">26</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">27</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">28</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#a30018]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">29</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#d5dae5]"></span></div></button>
+          <button class="cal-day h-10 flex flex-col items-center justify-center rounded-lg hover:bg-surface-container transition-colors"><span class="font-manrope text-[12px] text-on-surface font-semibold">30</span><div class="flex items-center gap-0.5 mt-0.5"><span class="w-1.5 h-1.5 rounded-full bg-[#1E9B61]"></span></div></button>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex items-center justify-center gap-3 pt-1.5 border-t border-outline-variant/20 mt-1 flex-wrap">
+          <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#1E9B61]"></span><span class="font-manrope text-[10px] text-tertiary uppercase font-semibold">Regular</span></div>
+          <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#E9A52A]"></span><span class="font-manrope text-[10px] text-tertiary uppercase font-semibold">Special</span></div>
+          <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#a30018]"></span><span class="font-manrope text-[10px] text-tertiary uppercase font-semibold">Belt Exam</span></div>
+          <div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#d5dae5]"></span><span class="font-manrope text-[10px] text-tertiary uppercase font-semibold">Holiday</span></div>
+        </div>
+      </div>
+
+      <!-- Selected Date Overview Header with Clean Non-Obscuring "+ Add Session" CTA -->
+      <div class="flex items-center justify-between gap-2 pt-1">
+        <div class="flex flex-col min-w-0">
+          <span class="font-display text-[17px] font-bold text-on-surface truncate">Tuesday, 24 Nov 2026</span>
+          <span class="font-manrope text-[11px] text-tertiary font-medium">Sri Sankara Dojo • 4 Classes Scheduled</span>
+        </div>
+        <a href="../create_class_schedule_form/code.html" aria-label="Add Class Session" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-display text-[14px] font-bold inline-flex items-center gap-1.5 shadow-sm active:scale-95 transition-all shrink-0">
+          <span class="material-symbols-outlined text-[18px]">add_circle</span>
+          <span>+ Add Session</span>
+        </a>
+      </div>
+
+      <!-- Daily Class Cards List (Sri Sankara Dojo Sessions Only) -->
+      <div class="flex flex-col gap-3" id="class-cards-list">
+        <!-- Class 1: Advanced Kumite & Kata -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-3 relative overflow-hidden transition-all duration-200">
+          <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+          <div class="flex items-start justify-between gap-2 pl-1">
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-2 mb-1 flex-wrap">
+                <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-manrope text-[10px] font-bold uppercase tracking-wide">Main Tatami Hall</span>
+                <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-tertiary font-manrope text-[10px] font-semibold tracking-wide">90 Mins</span>
+              </div>
+              <h3 class="font-display text-[18px] text-on-surface font-bold leading-tight">Advanced Kumite &amp; Kata</h3>
+              <div class="flex items-center gap-1.5 mt-1 text-primary">
+                <span class="material-symbols-outlined text-[16px]">schedule</span>
+                <span class="font-manrope text-[12px] font-bold">05:30 PM - 07:00 PM IST</span>
+              </div>
+            </div>
+            <button aria-label="Toggle Details" class="w-8 h-8 rounded-lg flex items-center justify-center bg-surface-container text-tertiary hover:text-on-surface active:scale-95 transition-colors">
+              <span class="material-symbols-outlined text-[20px]">expand_less</span>
+            </button>
+          </div>
+
+          <div class="bg-surface-container-low rounded-lg p-2.5 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-display font-bold text-sm shrink-0">
+                RK
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span class="font-display text-[14px] font-bold text-on-surface truncate">Shihan Rajesh Kumar (6th Dan)</span>
+                <span class="font-manrope text-[11px] text-tertiary truncate">Chief Instructor • Sri Sankara Dojo</span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end shrink-0">
+              <span class="font-manrope text-[10px] uppercase font-bold text-tertiary">Target Belts</span>
+              <div class="flex items-center gap-1 mt-0.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#854D0E]" title="Brown Belt"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-black" title="Black Belt"></span>
+                <span class="font-manrope text-[11px] font-bold text-on-surface">3rd Kyu - Dan</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center justify-between text-on-surface">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px] text-tertiary">groups</span>
+                <span class="font-manrope text-[12px] font-bold">24 / 28 Karatekas Checked In</span>
+              </div>
+              <span class="font-manrope text-[11px] font-bold text-primary">85% Capacity</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+              <div class="h-full rounded-full bg-gradient-to-r from-secondary to-primary transition-all duration-500" style="width: 85%;"></div>
+            </div>
+          </div>
+
+          <!-- Prominent Attendance Action Button -->
+          <div class="flex items-center gap-2 pt-1">
+            <a href="../class_attendance_roster_check_in/code.html" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-primary to-[#C9212B] text-on-primary font-display text-[14px] font-bold shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+              <span>Open Attendance Roster</span>
+            </a>
+            <button aria-label="Send WhatsApp Reminder" class="w-10 h-10 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high flex items-center justify-center active:scale-95 transition-all shrink-0" title="Broadcast Reminder">
+              <span class="material-symbols-outlined text-[18px]">campaign</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Class 2: Junior White & Yellow Belts -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-2 mb-0.5">
+                <span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-manrope text-[10px] font-bold uppercase tracking-wide">Tatami Hall B</span>
+                <span class="font-manrope text-[11px] text-tertiary">75 Mins</span>
+              </div>
+              <h4 class="font-display text-[16px] text-on-surface font-bold truncate">Junior White &amp; Yellow Belts</h4>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="font-manrope text-[12px] font-semibold text-tertiary flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">schedule</span> 04:00 PM - 05:15 PM IST
+                </span>
+                <span class="font-manrope text-[12px] text-tertiary flex items-center gap-1 truncate">
+                  <span class="material-symbols-outlined text-[15px]">person</span> Sensei Ananya Rao (3rd Dan)
+                </span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1.5 shrink-0">
+              <div class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-manrope text-[11px] font-bold">18 / 20</div>
+              <a href="../class_attendance_roster_check_in/code.html" class="text-primary hover:underline text-[12px] font-manrope font-semibold flex items-center gap-0.5">
+                <span>Roster</span>
+                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Class 3: Adult Kihon & Conditioning -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-2 mb-0.5">
+                <span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-manrope text-[10px] font-bold uppercase tracking-wide">Main Tatami Hall</span>
+                <span class="font-manrope text-[11px] text-tertiary">90 Mins</span>
+              </div>
+              <h4 class="font-display text-[16px] text-on-surface font-bold truncate">Adult Kihon &amp; Conditioning</h4>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="font-manrope text-[12px] font-semibold text-tertiary flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">schedule</span> 07:30 PM - 09:00 PM IST
+                </span>
+                <span class="font-manrope text-[12px] text-tertiary flex items-center gap-1 truncate">
+                  <span class="material-symbols-outlined text-[15px]">person</span> Shihan Rajesh Kumar (6th Dan)
+                </span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1.5 shrink-0">
+              <div class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-manrope text-[11px] font-bold">31 / 35</div>
+              <a href="../class_attendance_roster_check_in/code.html" class="text-primary hover:underline text-[12px] font-manrope font-semibold flex items-center gap-0.5">
+                <span>Roster</span>
+                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Class 4: Sunrise Kobudo & Weapons -->
+        <div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm border border-outline-variant/20 flex flex-col gap-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-2 mb-0.5">
+                <span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-manrope text-[10px] font-bold uppercase tracking-wide">Annex Dojo</span>
+                <span class="font-manrope text-[11px] text-tertiary">60 Mins</span>
+              </div>
+              <h4 class="font-display text-[16px] text-on-surface font-bold truncate">Sunrise Kobudo &amp; Weapons</h4>
+              <div class="flex items-center gap-3 mt-1">
+                <span class="font-manrope text-[12px] font-semibold text-tertiary flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">schedule</span> 06:30 AM - 07:30 AM IST
+                </span>
+                <span class="font-manrope text-[12px] text-tertiary flex items-center gap-1 truncate">
+                  <span class="material-symbols-outlined text-[15px]">person</span> Shihan Rajesh Kumar
+                </span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-1.5 shrink-0">
+              <div class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-manrope text-[11px] font-bold">21 / 25</div>
+              <a href="../class_attendance_roster_check_in/code.html" class="text-primary hover:underline text-[12px] font-manrope font-semibold flex items-center gap-0.5">
+                <span>Roster</span>
+                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const filters = document.querySelectorAll('.tatami-filter');
+      filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filters.forEach(f => {
+            f.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm', 'font-bold');
+            f.classList.add('bg-surface-container', 'text-tertiary', 'font-semibold');
+          });
+          btn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm', 'font-bold');
+          btn.classList.remove('bg-surface-container', 'text-tertiary', 'font-semibold');
+        });
+      });
+    })();
+  </script>
+</main>
+
+<!-- COMPONENT 8: BOTTOM NAVIGATION (5 TABS, CENTER RAISED PUNCH EMBLEM WITH STRICTLY NO TEXT LABEL) -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.06)]" data-active-classes="text-primary font-semibold">
+  <div class="h-20 px-space-xs flex items-center justify-around relative">
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="students" href="../students_directory/code.html">
+      <span class="material-symbols-outlined text-[24px]">sports_martial_arts</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">STUDENTS</span>
+    </a>
+    <a aria-current="page" class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-primary font-bold transition-colors" data-path="schedule" href="../schedule_monthly_calendar/code.html">
+      <span class="material-symbols-outlined text-[24px]">calendar_today</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">SCHEDULE</span>
+    </a>
+    <!-- Center Raised Home Button: 62-66dp, white karate emblem, red circular gradient, STRICTLY NO TEXT LABEL -->
+    <div class="relative flex flex-col items-center justify-center px-1">
+      <a aria-label="Home Dashboard" class="w-[62px] h-[62px] -mt-5 rounded-full bg-gradient-to-br from-[#971923] to-[#C9212B] flex items-center justify-center shadow-[0_6px_18px_rgba(163,0,24,0.40)] active:scale-95 transition-transform duration-150 shrink-0" data-path="home" href="../dojoflow_master_dashboard/code.html">
+        <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Karate Punching Emblem">
+          <circle cx="36" cy="22" r="11" fill="#FFFFFF"/>
+          <path d="M28 20 C16 17 12 24 15 28 C22 23 30 24 30 24 Z" fill="#FFFFFF"/>
+          <path d="M36 32 L52 40 L46 62 L30 62 L24 38 Z" fill="#FFFFFF"/>
+          <path d="M50 40 L72 39 L86 39" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="86" cy="39" r="7.5" fill="#FFFFFF"/>
+          <path d="M26 40 L18 48 L26 54" stroke="#FFFFFF" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M28 62 L48 62" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+          <path d="M30 62 L18 86 L28 86 L38 64 Z" fill="#FFFFFF"/>
+          <path d="M44 62 L60 86 L74 86 L50 64 Z" fill="#FFFFFF"/>
+        </svg>
+      </a>
+    </div>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="events" href="../events_tournaments_directory/code.html">
+      <span class="material-symbols-outlined text-[24px]">emoji_events</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">EVENTS</span>
+    </a>
+    <a class="flex-1 flex flex-col items-center justify-center min-h-[48px] py-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="stats" href="../stats_financial_analytics/code.html">
+      <span class="material-symbols-outlined text-[24px]">analytics</span>
+      <span class="font-label-sm text-label-sm tracking-normal uppercase mt-1">STATS</span>
+    </a>
+  </div>
+</nav>
+
+</body></html>

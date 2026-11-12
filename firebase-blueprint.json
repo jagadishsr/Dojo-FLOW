@@ -1,0 +1,262 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile containing authentication and role-based access information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["founder", "shihan", "student", "parent"] },
+        "orgId": { "type": "string" },
+        "assignedDojoIds": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "Organisation": {
+      "title": "Organisation",
+      "description": "Martial arts academy, association, or federation details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "name": { "type": "string" },
+        "shortName": { "type": "string" },
+        "martialArtStyle": { "type": "string" },
+        "country": { "type": "string" },
+        "language": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "topSenseiName": { "type": "string" },
+        "address": { "type": "string" },
+        "dateOfEstablishment": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerUid", "name", "martialArtStyle", "createdAt"]
+    },
+    "Dojo": {
+      "title": "Dojo",
+      "description": "Training location / dojo branch under an organisation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "name": { "type": "string" },
+        "shortName": { "type": "string" },
+        "address": { "type": "string" },
+        "locality": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "country": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "contactNumber": { "type": "string" },
+        "email": { "type": "string" },
+        "assignedShihanUids": { "type": "array" },
+        "openingDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "monthlyFee": { "type": "number" },
+        "quarterlyFee": { "type": "number" },
+        "halfYearlyFee": { "type": "number" },
+        "annuallyFee": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "ownerUid", "name", "status", "createdAt"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Student martial artist / Karateka record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "dojoId": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "fullName": { "type": "string" },
+        "gender": { "type": "string" },
+        "dateOfBirth": { "type": "string" },
+        "age": { "type": "number" },
+        "photoUrl": { "type": "string" },
+        "fatherName": { "type": "string" },
+        "motherName": { "type": "string" },
+        "parentGuardianName": { "type": "string" },
+        "parentGuardianMobile": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "locality": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "country": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "admissionDate": { "type": "string" },
+        "trainingType": { "type": "string" },
+        "trainingAddress": { "type": "string" },
+        "currentBelt": { "type": "string" },
+        "studentDesignation": { "type": "string" },
+        "emergencyContact": { "type": "string" },
+        "notes": { "type": "string" },
+        "feePlan": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "leavingDate": { "type": "string" },
+        "leavingReason": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "dojoId", "ownerUid", "fullName", "currentBelt", "status", "createdAt"]
+    },
+    "AttendanceSession": {
+      "title": "AttendanceSession",
+      "description": "Daily attendance record for a class session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "dojoId": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "classId": { "type": "string" },
+        "date": { "type": "string" },
+        "title": { "type": "string" },
+        "instructorName": { "type": "string" },
+        "presentStudentIds": { "type": "array" },
+        "totalStudents": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "dojoId", "ownerUid", "date", "createdAt"]
+    },
+    "ClassSchedule": {
+      "title": "ClassSchedule",
+      "description": "Training schedule for dojo classes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "dojoId": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "instructorUid": { "type": "string" },
+        "instructorName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "startDate": { "type": "string" },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "daysOfWeek": { "type": "array" },
+        "recurrenceType": { "type": "string" },
+        "instructions": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "dojoId", "ownerUid", "title", "startTime", "endTime", "createdAt"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Student fee collection transaction record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "dojoId": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "feePeriod": { "type": "string" },
+        "receiptNumber": { "type": "string" },
+        "paymentDate": { "type": "string" },
+        "notes": { "type": "string" },
+        "recordedByUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "dojoId", "ownerUid", "studentId", "amount", "paymentMethod", "createdAt"]
+    },
+    "BeltPromotion": {
+      "title": "BeltPromotion",
+      "description": "Historical record of martial art belt progression and rank awards",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "dojoId": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "previousBelt": { "type": "string" },
+        "newBelt": { "type": "string" },
+        "promotionDate": { "type": "string" },
+        "examinerName": { "type": "string" },
+        "comments": { "type": "string" },
+        "certificateNumber": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "dojoId", "ownerUid", "studentId", "newBelt", "createdAt"]
+    },
+    "Tournament": {
+      "title": "Tournament",
+      "description": "Championship, tournament or seminar event details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "name": { "type": "string" },
+        "date": { "type": "string" },
+        "venue": { "type": "string" },
+        "organizer": { "type": "string" },
+        "registrationDeadline": { "type": "string" },
+        "description": { "type": "string" },
+        "posterUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["upcoming", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orgId", "ownerUid", "name", "date", "venue", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles and RBAC credentials"
+    },
+    "/organisations/{orgId}": {
+      "schema": "Organisation",
+      "description": "Martial arts organisations and federations"
+    },
+    "/dojos/{dojoId}": {
+      "schema": "Dojo",
+      "description": "Individual dojos established under an organisation"
+    },
+    "/students/{studentId}": {
+      "schema": "Student",
+      "description": "Student practitioners across dojos"
+    },
+    "/attendance_sessions/{sessionId}": {
+      "schema": "AttendanceSession",
+      "description": "Session attendance sheets"
+    },
+    "/class_schedules/{scheduleId}": {
+      "schema": "ClassSchedule",
+      "description": "Class schedules for dojos"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Fee payment transactions and receipts"
+    },
+    "/belt_promotions/{promotionId}": {
+      "schema": "BeltPromotion",
+      "description": "Belt promotion and grading examination history"
+    },
+    "/tournaments/{tournamentId}": {
+      "schema": "Tournament",
+      "description": "Martial arts tournaments and events"
+    }
+  }
+}
